@@ -1,5 +1,5 @@
 from src.api import Product
-from src.database import ProductsDatabaseView
+from src.database.database import ProductsDatabaseView
 from src.index import ProductsIndexView
 
 
