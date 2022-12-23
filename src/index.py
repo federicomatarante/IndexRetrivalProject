@@ -1,7 +1,12 @@
 from src.api import Product
+from src.textpreprocessing import TextPreprocessor
 
 
 class ProductsIndexView:
+    _textPreprocessor: TextPreprocessor
+
+    def __init__(self, textPreprocessor: TextPreprocessor):
+        self._textPreprocessor = textPreprocessor
 
     def query(self, query: str) -> list[str]:
         """
