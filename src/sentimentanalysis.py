@@ -1,3 +1,5 @@
+from feel_it import EmotionClassifier, SentimentClassifier
+
 class SentimentAnalyzer:
 
     @staticmethod

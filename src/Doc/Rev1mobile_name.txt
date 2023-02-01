@@ -1,3 +1,4 @@
-mobile_namestitlestar
+mobile_names
+star
 https://www.amazon.it/s?k=mobile_name
 body 

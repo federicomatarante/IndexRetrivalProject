@@ -1,7 +1,8 @@
-from src.api import Product
-from src.database.database import ProductsDatabaseView
-from src.index import ProductsIndexView
-
+from apii import Product
+from database.database import ProductsDatabaseView
+from index import ProductsIndexView
+from whoosh.index import open_dir
+from whoosh.fields import *
 
 class ProductSearcher:
     _databaseView: ProductsDatabaseView
@@ -11,10 +12,8 @@ class ProductSearcher:
         self._databaseView = databaseView
         self._indexView = indexView
 
-    def retrive(self, query: str) -> list[Product]:
-        """
-        :param query: str. The query in natural language.
-        :return: list[Product]. A list of required products in decreasing order of importance.
-        """
+    def retrive(self, query):
+
+
         titles: list[str] = self._indexView.query(query)
         return [self._databaseView.get(title) for title in titles]

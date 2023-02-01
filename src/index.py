@@ -1,5 +1,10 @@
-from src.api import Product
-from src.textpreprocessing import TextPreprocessor
+# from src.api import Product
+from CollectDocument import create_path as Path
+import os
+from whoosh.index import create_in
+from whoosh.fields import *
+from whoosh.writing import AsyncWriter
+import sys
 
 
 class ProductsIndexView:
@@ -36,6 +41,7 @@ class ProductsIndex:
         @:return: ProductsIndexView. An object to use the index.
         """
 
+
     def open(self) -> ProductsIndexView:
         """
         Opens the index file.
@@ -52,3 +58,31 @@ class ProductsIndex:
         """
         Deletes the index file.
         """
+
+def CheckAttributi(file_name):
+    try:
+        nome,titolo,stelle,link, recensione = "","","","",""
+        fd = open(file_name, 'r')
+        nome = fd.readline()
+        titolo = fd.readline()
+        stelle = fd.readline()
+        link = fd.readline()
+        recensione = fd.readlines()
+
+        if nome == "" or titolo == "" or stelle == "" or link == "" or recensione == "" :
+            return None
+        else:
+            return file_name
+    except EOFError:
+        print("mancano degli attributi")
+    except Exception:
+        print (Exception)
+
+
+
+
+
+    # Creo la directory indexdir
+    if not os.path.exists("indexdir"):
+        os.mkdir("indexdir")
+

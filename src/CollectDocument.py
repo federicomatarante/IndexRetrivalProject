@@ -16,6 +16,8 @@ def replace (stringa:str):
         stringa2 = stringa2[0:len(stringa2)-1]
     return half_link+stringa2
 
+def delete_space(stringa):
+    return stringa.replace(" ", "")
 def create_path():
     """
     metodo che cra i path del sorgente con i device e le recensioni
@@ -54,10 +56,12 @@ class CollectDocument:
                 try:
                     lettore = csv.reader(filecsv, delimiter=",")
                     header = next(lettore)
+
                     file_name = create_file_name(header[1])
+                    file_name = delete_space(file_name)
                     fd = open(dest+"Rev"+str(k)+file_name+".txt",'w')
-                    fd.write(header[1])     # Nome del prodotto
-                    fd.write(header[3])     # Titolo della recensione
+
+                    fd.write(header[1]+"\n")    # Nome del prodotto
                     fd.write(header[5]+"\n")    # Stelle della recensione
                     link = replace(header[1])
                     fd.write(link+'\n')       # link amazon del prodotto
@@ -73,3 +77,7 @@ class CollectDocument:
                     fd.close()
                 except: pass
         filecsv.close()
+
+if __name__=='__main__':
+    print("Creo la collezione di documenti")
+    CollectDocument()

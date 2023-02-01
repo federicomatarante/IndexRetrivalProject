@@ -1,8 +1,8 @@
 import os
 from typing import Optional
 
-from src.api import Product, Review
-from src.database.sqlite_database import SQLiteView, TableSchema
+from apii import Product, Review
+from database.sqlite_database import SQLiteView, TableSchema
 
 
 class DatabaseError(Exception):
