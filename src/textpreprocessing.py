@@ -88,5 +88,19 @@ class TextProcessing:
         """The generated and processed tokens."""
         return self._tokens
 
+class Preprocessing():
+    def __init__(self, testo):
+        self.text = testo  # testo della recensine
+        self.token = []    # lista vuota con il testo preprocessato
 
 
+
+    def Tokenize(self):
+
+        # tokenizzazione
+        token = nltk.word_tokenize(self.text,'english')
+        for t in token:
+
+            # rimozione delle stowords
+            if t not in stopwords.words('english') and t.isalnum():
+                self.token.append(t)

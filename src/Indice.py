@@ -4,6 +4,8 @@ from whoosh.index import create_in
 from whoosh.fields import *
 from whoosh.writing import AsyncWriter
 from textpreprocessing import TextPreprocessor
+from textpreprocessing import Preprocessing as P
+from sentimentanalysis import SentimentAnalyzer as s
 
 def CheckAttributi(file_name):
     try:
@@ -23,6 +25,10 @@ def CheckAttributi(file_name):
     except Exception:
         print(Exception)
 
+def list_to_string(lista):
+    """Metodo che converte una lista in una stringa"""
+    s = ''.join(str(char) for char in lista)
+    return s
 
 
 def CreateIndex(dest):
@@ -31,13 +37,11 @@ def CreateIndex(dest):
         stelle ed il path del file"""
 
     print(dest)
-    schema = Schema(nome_smarthone = TEXT(stored = True),\
-                    stelle_recensione = ID(stored = True),
-                    sentiment = ID(stored = True),
-                    file_path = ID(stored = True),
-                    link = ID(stored = True),
-                    testo_recensione = TEXT(stored = True),
-                    testo_processato = TEXT)
+    schema = Schema(nome = ID(stored = True),  # nome dello smartphone
+                    stelle = ID(stored = True), # stelle della recensione
+                    sentiment = ID(stored = True), # sentimento della recensione
+                    link = ID(stored = True), # link amazon della recensione
+                    testo = TEXT(stored=True)) #testo della recensione
 
     # Creo la directory indexdir
     if not os.path.exists( "indexdir"):
@@ -47,13 +51,10 @@ def CreateIndex(dest):
     writer = AsyncWriter(ix)
 
     # Acquisisco i path di tutti i file nella cartella Doc
-    #src, dest = Path()
-    print(os.listdir(dest))
     files = os.listdir(dest)
     for file in files:
 
         file_name = dest+"\\"+file
-        print(file_name)
         # controllo che un file abbia tutti gli attibuti, se li ha
         # lo inserisco nell'indice
 
@@ -63,26 +64,29 @@ def CreateIndex(dest):
             nome = fd.readline().rstrip()
             stelle = fd.readline().rstrip()
             link = fd.readline().rstrip()
-            recensione = fd.readlines()
+            rec = fd.readlines()
+            recensione = list_to_string(rec)
+
+            processing = P(recensione)
+            processing.Tokenize()
+            t = processing.token
+            testo = list_to_string(t)
+
 
             """TO DO aggiungo il file al database"""
 
+
             """ TO DO funzione di sentiment"""
-            sentiment = " 0 "
-            # text_processato = TextPreprocessor.process(recensione)
-            # print(text_processato)
+            sentiment = s.getScore(testo)
 
             # aggiungo un documento all'indice
-            writer.add_document(nome_smarthone =nome,\
-                                stelle_recensione = stelle,\
-                                sentiment =sentiment,\
-                                link = link,\
-                                testo_recensione = recensione,\
-                                testo_processato = "")
+            writer.add_document(nome =nome,
+                                stelle= stelle,
+                                sentiment =sentiment,
+                                link = link,
+                                testo= t)
             fd.close()
     writer.commit()
 
 if __name__ == "__main__":
-    print("directory corrente")
-    print(os.getcwd())
     CreateIndex(os.getcwd()+"\\"+"Doc")

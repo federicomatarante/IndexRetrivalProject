@@ -1,7 +1,6 @@
 # from feel_it import EmotionClassifier, SentimentClassifier
 from transformers import pipeline, Pipeline
 
-
 class SentimentAnalyzer:
     _sentiment_pipeline: Pipeline
 
