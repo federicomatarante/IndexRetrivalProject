@@ -3,8 +3,9 @@ import os
 from whoosh.index import create_in
 from whoosh.fields import *
 from whoosh.writing import AsyncWriter
+
+from IndexRetrivalProject.src.database.database import ProductsDatabase
 from textpreprocessing import TextPreprocessor
-from textpreprocessing import Preprocessing as P
 from sentimentanalysis import SentimentAnalyzer as s
 
 def CheckAttributi(file_name):
@@ -39,7 +40,6 @@ def CreateIndex(dest):
     schema = Schema(nome = ID(stored = True),  # nome dello smartphone
                     stelle = ID(stored = True), # stelle della recensione
                     sentiment = ID(stored = True), # sentimento della recensione
-                    link = ID(stored = True), # link amazon della recensione
                     testo = TEXT(stored=True)) #testo della recensione
 
     # Creo la directory indexdir
@@ -66,24 +66,26 @@ def CreateIndex(dest):
             rec = fd.readlines()
             recensione = list_to_string(rec)
 
-            processing = P(recensione)
-            processing.Tokenize()
-            t = processing.token
-            testo = list_to_string(t)
-
+            pre = TextPreprocessor.process(recensione)
+            recensione = list_to_string(pre)
 
             """TO DO aggiungo il file al database"""
+            d = ProductsDatabase("database.sqlite")
+            if not d.exists():
+                database = d.create()
+            else:
+                database = d.open()
+
 
 
             """ TO DO funzione di sentiment"""
-            sentiment = s.getScore(testo)
+            #sentiment = s.getScore(testo)
 
             # aggiungo un documento all'indice
             writer.add_document(nome =nome,
                                 stelle= stelle,
-                                sentiment =sentiment,
-                                link = link,
-                                testo= t)
+                                sentiment ='0.0',
+                                testo= recensione)
             fd.close()
     writer.commit()
 

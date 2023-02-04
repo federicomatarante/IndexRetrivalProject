@@ -1,7 +1,7 @@
 import os
 from typing import Optional
 
-from src.apii import Product, Review
+from IndexRetrivalProject.src.apii import Review, Product
 from sqlite_database import SQLiteView, TableSchema
 
 
