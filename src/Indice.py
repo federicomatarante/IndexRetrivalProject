@@ -36,7 +36,6 @@ def CreateIndex(dest):
         da non trattare come testo ma da trattere nell'insieme come ad esempio il sentimento, il numero di
         stelle ed il path del file"""
 
-    print(dest)
     schema = Schema(nome = ID(stored = True),  # nome dello smartphone
                     stelle = ID(stored = True), # stelle della recensione
                     sentiment = ID(stored = True), # sentimento della recensione
