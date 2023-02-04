@@ -1,12 +1,12 @@
 import string
+from abc import ABC
 
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
 
-class TextPreprocessor:
-
+class TextPreprocessor(ABC):
     @staticmethod
     def process(text: str, language: str = 'english') -> list[str]:
         """
@@ -14,6 +14,13 @@ class TextPreprocessor:
         :param language: str. The language of the text. The default is 'english'.
         :return: a list of processed tokens.
         """
+        pass
+
+
+class FullPreprocessor(TextPreprocessor):
+
+    @staticmethod
+    def process(text: str, language: str = 'english') -> list[str]:
         processing = TextProcessing(text, language=language)
         processing.tokenize()
         processing.removeStopwords()
