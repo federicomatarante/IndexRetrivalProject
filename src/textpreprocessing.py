@@ -92,25 +92,3 @@ class TextProcessing:
     def tokens(self) -> list[str]:
         """The generated and processed tokens."""
         return self._tokens
-
-
-text = "To filter lists in Python, use filter(). For example, filter(lambda age: age > 20, ages) filters an ages list " \
-       "so that ages 20+ only are left. "
-tp = TextPreprocessor()
-print(tp.process(text))
-
-
-class Preprocessing():
-    def __init__(self, testo):
-        self.text = testo  # testo della recensine
-        self.token = []  # lista vuota con il testo preprocessato
-
-    def Tokenize(self):
-
-        # tokenizzazione
-        token = nltk.word_tokenize(self.text, 'english')
-        for t in token:
-
-            # rimozione delle stowords
-            if t not in stopwords.words('english') and t.isalnum():
-                self.token.append(t)
