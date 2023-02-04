@@ -1,7 +1,7 @@
 import os
 from typing import Optional
 
-from IndexRetrivalProject.src.apii import Review, Product
+from src.apii import Review, Product
 from sqlite_database import SQLiteView, TableSchema
 
 
@@ -26,7 +26,6 @@ class ProductsDatabaseView:
         try:
             self._sqliteView.insertOne('Product', {
                 'title': product.title,
-                'description': product.description,
                 'link': product.link
             })
             for review in product.reviews:
@@ -50,13 +49,12 @@ class ProductsDatabaseView:
             product_results = self._sqliteView.select('Product', ['title', 'description'], f"title == '{title}'")
             if not product_results:
                 return None
-            description = product_results[0]["description"]
             link = product_results[0]["link"]
             review_results = self._sqliteView.select('Review', ['text'], f"product == '{title}'")
             reviews = [Review(text=review_result['text'], stars=review_result["stars"]) for review_result in
                        review_results]
 
-            return Product(title=title, description=description, reviews=reviews, link=link)
+            return Product(title=title, reviews=reviews, link=link)
 
         except Exception:
             raise DatabaseError(f"Could not find: {title}")
@@ -85,7 +83,6 @@ class ProductsDatabase:
             TableSchema(name='Product',
                         attributes={
                             'title': 'TEXT PRIMARY KEY',
-                            'description': 'TEXT NULLABLE',
                             'link': 'TEXT NULLABLE'
                         }),
             TableSchema(name='Review',

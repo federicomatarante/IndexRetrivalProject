@@ -14,4 +14,3 @@ class Product:
 
     def __post_init__(self):
         self.reviews = [] if self.reviews is None else self.reviews
-    description: str
