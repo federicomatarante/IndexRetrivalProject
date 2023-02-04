@@ -26,12 +26,14 @@ class ProductsDatabaseView:
         try:
             self._sqliteView.insertOne('Product', {
                 'title': product.title,
-                'description': product.description
+                'description': product.description,
+                'link': product.link
             })
             for review in product.reviews:
                 self._sqliteView.insertOne('Review', {
                     'product': product.title,
-                    'text': review.text
+                    'text': review.text,
+                    'stars': review.stars
                 })
         except Exception:
             raise DatabaseError(f"Could not add product: {product.title}\n")
@@ -49,10 +51,12 @@ class ProductsDatabaseView:
             if not product_results:
                 return None
             description = product_results[0]["description"]
+            link = product_results[0]["link"]
             review_results = self._sqliteView.select('Review', ['text'], f"product == '{title}'")
-            reviews = [Review(review_result['text']) for review_result in review_results]
+            reviews = [Review(text=review_result['text'], stars=review_result["stars"]) for review_result in
+                       review_results]
 
-            return Product(title=title, description=description, reviews=reviews)
+            return Product(title=title, description=description, reviews=reviews, link=link)
 
         except Exception:
             raise DatabaseError(f"Could not find: {title}")
@@ -81,11 +85,15 @@ class ProductsDatabase:
             TableSchema(name='Product',
                         attributes={
                             'title': 'TEXT PRIMARY KEY',
-                            'description': 'TEXT NULLABLE'}),
+                            'description': 'TEXT NULLABLE',
+                            'link': 'TEXT NULLABLE'
+                        }),
             TableSchema(name='Review',
                         attributes={
                             'text': 'TEXT',
-                            'product': 'TEXT NOT NULL'},
+                            'product': 'TEXT NOT NULL',
+                            'stars': 'UNSIGNED INTEGER NOT NULL'
+                        },
                         slope=['FOREIGN KEY(product) REFERENCES Product(title)',
                                'PRIMARY KEY(text,product)'])
         ]
