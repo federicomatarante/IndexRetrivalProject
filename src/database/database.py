@@ -1,10 +1,9 @@
-import collections
 import os
 import uuid
-from typing import Optional, Iterable, Union, List
+from typing import Iterable, Union, List
 
-from src.apii import Review, Product
-from sqlite_database import SQLiteView, TableSchema
+from sqlite_database import SQLiteView, TableSchema, Script
+from src.apii import Product
 from src.database.databasecreator import ProductQueryCreator, ProductCreator
 
 
@@ -20,27 +19,32 @@ class ProductsDatabaseView:
         """
         self._sqliteView = sqliteView
 
-    def add(self, product: Product):
+    def add(self, products: Union[Product, Iterable[Product]]):
         """
         Adds a product in the database.
-        :param product: Product. The product to add to the database.
+        :param products: The product to be removed. Can be either a single or a collection.
         """
+        if isinstance(products, Product):
+            products = [products]
 
-        try:
-            self._sqliteView.insertOne('Product', {
-                'id': str(product.id),
-                'title': product.title,
-                'link': product.link
-            })
-            for review in product.reviews:
-                self._sqliteView.insertOne('Review', {
-                    'id': str(review.id),
-                    'product_id': str(product.id),
-                    'text': review.text,
-                    'stars': review.stars
+        script: Script = self._sqliteView.createScript()
+        for product in products:
+            try:
+                script.insertOne('Product', {
+                    'id': str(product.id),
+                    'title': product.title,
+                    'link': product.link
                 })
-        except Exception as e:
-            raise DatabaseError(f"Could not add product: {product}\n")
+                for review in product.reviews:
+                    script.insertOne('Review', {
+                        'id': str(review.id),
+                        'product_id': str(product.id),
+                        'text': review.text,
+                        'stars': review.stars
+                    })
+            except Exception as e:
+                raise DatabaseError(f"Could not add product: {product}\n")
+        script.commit()
 
     def get(self, productIds: Union[Union[str, uuid.UUID], List[Union[str, uuid.UUID]]] = None) -> List[Product]:
 
@@ -74,18 +78,21 @@ class ProductsDatabaseView:
             products = sorted(products, key=lambda x: productIds.index(x.id))
         return products
 
-    def delete(self, title: str):
+    def delete(self, products: Union[Product, Iterable[Product]]):
 
         """
         Deletes a product from the database.
-        :param title: str. The Product's title to delete.
+        :param products: The product to be removed. Can be either a single or a collection.
         """
+        if isinstance(products, Product):
+            products = [products]
 
+        product_ids: str = ', '.join([str(f"'{product.id}'") for product in products])
         try:
-            self._sqliteView.delete('Product', f"title == '{title}'")
-            self._sqliteView.delete('Review', f"product == '{title}'")
+            self._sqliteView.delete('Product', f"id IN ({product_ids})")
+            self._sqliteView.delete('Review', f"product_id IN ({product_ids})")
         except Exception:
-            raise DatabaseError(f"Could not delete: {title}")
+            raise DatabaseError(f"Could not delete: {products}")
 
 
 class ProductsDatabase:

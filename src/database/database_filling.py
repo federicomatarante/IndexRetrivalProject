@@ -83,18 +83,13 @@ def populateDatabase(products: list[Product], databasePath: str):
     else:
         dbview = database.create()
 
-    count = 1
-    for product in products:
-        print(f"{count}/{len(products)}")
-        dbview.add(product)
-        count = count + 1
+    dbview.add(products)
 
     database.close()
 
 
 database_path = "C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\Doc"
 folder_path = 'db.sqlite'
-
 
 print("Prendo i prodotti dai file...")
 p = get_products(database_path)

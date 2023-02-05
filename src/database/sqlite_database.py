@@ -1,7 +1,50 @@
 import sqlite3
 from dataclasses import dataclass
 from sqlite3 import Connection, Cursor
-from typing import Optional
+from typing import Optional, List
+
+
+class Script:
+    _queries = []
+    _connection: Connection
+
+    def __init__(self, connection: Connection):
+        self._connection = connection
+
+    def insertOne(self, table: str, item: dict[str, any]):
+        """
+        Inserts a record into a table.
+        :param table: str. The table's name.
+        :param item: dict[str,any]. The items in the record. The key-value is in the format of attributeName-value, for example age-32
+        """
+        keys_string = ", ".join([key.replace("'", "''") for key in item.keys()])
+        values = [value.replace("'", "''") if type(value) == str else value for value in item.values()]
+        values_string = ", ".join([f"'{item}'" if type(item) == str else str(item) for item in values])
+        query = f'INSERT INTO {table} ({keys_string}) VALUES ({values_string});'
+        self._queries.append(query)
+
+    def delete(self, table: str, where: str):
+        """
+        Deletes records from the table.
+        :param table: the table where the records will be deleted.
+        :param where: the condition's query.
+        """
+        query = f"DELETE FROM {table} WHERE {where};"
+        self._queries.append(query)
+
+    def commit(self):
+        cursor: Cursor = self._connection.cursor()
+        scripts: list[str] = []
+        for i in range(0, len(self._queries), 25):
+            scripts.append('\n'.join(self._queries[i:i + 25]))
+        print(scripts)
+        try:
+            for script in scripts:
+                cursor.executescript(script)
+            self._connection.commit()
+        finally:
+            cursor.close()
+        self._queries = []
 
 
 @dataclass
@@ -172,6 +215,14 @@ class SQLiteView:
                     for result_set in result_sets]
         finally:
             cursor.close()
+
+    def createScript(self) -> Script:
+        """
+        :return: Script. An object to create complex scripts to be executed in a single commit.
+        """
+        if self._connection is None:
+            self._connectionError()
+        return Script(self._connection)
 
     def _connectionError(self):
         raise ConnectionError("The database is not connected!")
