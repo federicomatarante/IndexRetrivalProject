@@ -128,7 +128,7 @@ class SQLiteView:
         try:
             keys_string = ", ".join([key.replace("'", "''") for key in item.keys()])
             values = [value.replace("'", "''") if type(value) == str else value for value in item.values()]
-            values_string = ", ".join([f"'{item}'" if type(item) == str else item for item in values])
+            values_string = ", ".join([f"'{item}'" if type(item) == str else str(item) for item in values])
             cursor.execute(f'INSERT INTO {table} ({keys_string}) VALUES ({values_string});')
             self._connection.commit()
         finally:
@@ -149,7 +149,7 @@ class SQLiteView:
         finally:
             cursor.close()
 
-    def select(self, table, attributes: list[str], where: str) -> list[dict[str, any]]:
+    def select(self, table, attributes: list[str], where: str = None) -> list[dict[str, any]]:
         """
         Selects records from the table.
         :param table: the table where the records will be selected.
@@ -161,7 +161,11 @@ class SQLiteView:
             self._connectionError()
         cursor: Cursor = self._connection.cursor()
         try:
-            cursor.execute(f"SELECT {', '.join(attributes)} FROM {table} WHERE {where};")
+            query = f"SELECT {', '.join(attributes)} FROM {table}"
+            if where is not None:
+                query = query + f" WHERE {where}"
+            query = query + ";"
+            cursor.execute(query)
             self._connection.commit()
             result_sets = cursor.fetchall()
             return [{attributes[index]: result for index, result in enumerate(result_set)}
