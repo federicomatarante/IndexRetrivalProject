@@ -1,8 +1,11 @@
+import collections
 import os
-from typing import Optional
+import uuid
+from typing import Optional, Iterable, Union, List
 
 from src.apii import Review, Product
 from sqlite_database import SQLiteView, TableSchema
+from src.database.databasecreator import ProductQueryCreator, ProductCreator
 
 
 class DatabaseError(Exception):
@@ -25,39 +28,51 @@ class ProductsDatabaseView:
 
         try:
             self._sqliteView.insertOne('Product', {
+                'id': str(product.id),
                 'title': product.title,
                 'link': product.link
             })
             for review in product.reviews:
                 self._sqliteView.insertOne('Review', {
-                    'product': product.title,
+                    'id': str(review.id),
+                    'product_id': str(product.id),
                     'text': review.text,
                     'stars': review.stars
                 })
-        except Exception:
-            raise DatabaseError(f"Could not add product: {product.title}\n")
+        except Exception as e:
+            raise DatabaseError(f"Could not add product: {product}\n")
 
-    def get(self, title: str) -> Optional[Product]:
+    def get(self, productIds: Union[Union[str, uuid.UUID], List[Union[str, uuid.UUID]]] = None) -> List[Product]:
 
         """
-        Retrieves a product from the database.
-        :param title: str. The title of the required Product.
-        :return: Optional[Product]. The required Product, if present. Else none.
+
+        Retrieves a product from the database. :param productIds: the id of a product, can be single or an iterable.
+        If left empty it retreives every product. of IDs. It can be a string or a UUID. :return: List[Product]: the
+        list of required Products. It's given in the same order as required in the parameter productIds.
+
         """
+
+        products = []
 
         try:
-            product_results = self._sqliteView.select('Product', ['title', 'description'], f"title == '{title}'")
-            if not product_results:
-                return None
-            link = product_results[0]["link"]
-            review_results = self._sqliteView.select('Review', ['text'], f"product == '{title}'")
-            reviews = [Review(text=review_result['text'], stars=review_result["stars"]) for review_result in
-                       review_results]
+            query_creator = ProductQueryCreator(productIds)
+            where = query_creator.where
+            product_results = self._sqliteView.select('Product', ['title', 'link', 'id'], where)
 
-            return Product(title=title, reviews=reviews, link=link)
+            for product_result in product_results:
+                product_creator = ProductCreator(product_result)
+                review_results = self._sqliteView.select('Review', ['text', 'id', 'stars'],
+                                                         f"product_id == '{product_creator.product_id}'")
+                product_creator.setReviews(review_results)
+                product = product_creator.product
+                products.append(product)
 
         except Exception:
-            raise DatabaseError(f"Could not find: {title}")
+            raise DatabaseError(f"Could not find: {productIds}")
+
+        if isinstance(productIds, Iterable):
+            products = sorted(products, key=lambda x: productIds.index(x.id))
+        return products
 
     def delete(self, title: str):
 
@@ -82,17 +97,19 @@ class ProductsDatabase:
         table_schemas = [
             TableSchema(name='Product',
                         attributes={
-                            'title': 'TEXT PRIMARY KEY',
+                            'id': 'TEXT PRIMARY KEY',
+                            'title': 'TEXT NOT NULL',
                             'link': 'TEXT NULLABLE'
                         }),
             TableSchema(name='Review',
                         attributes={
+                            'id': 'TEXT NOT NULL',
                             'text': 'TEXT',
-                            'product': 'TEXT NOT NULL',
+                            'product_id': 'TEXT NOT NULL',
                             'stars': 'UNSIGNED INTEGER NOT NULL'
                         },
-                        slope=['FOREIGN KEY(product) REFERENCES Product(title)',
-                               'PRIMARY KEY(text,product)'])
+                        slope=['FOREIGN KEY(product_id) REFERENCES Product(id)',
+                               'PRIMARY KEY(id,product_id)'])
         ]
         self._sqliteView = SQLiteView(file, table_schemas)
         self._file = file
