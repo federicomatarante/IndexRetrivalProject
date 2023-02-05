@@ -7,7 +7,7 @@ from uuid import UUID
 class Review:
     stars: int      # stelle della recensione
     text: str       # testo della recensione
-    sentiment = None    #sentimento della recensione
+    sentiment: float    # sentimento della recensione
     id: str = None      # nome del documento dalla quale estraggo la recensione
 
     def __post_init__(self):

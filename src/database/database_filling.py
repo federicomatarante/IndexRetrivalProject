@@ -3,6 +3,7 @@ import re
 
 from src.apii import Product, Review
 from src.database.database import ProductsDatabase
+from src.sentimentanalysis import HuggingFaceAnalyzer
 
 
 def get_products(directory: str):
@@ -39,18 +40,25 @@ def get_products(directory: str):
 
             # Legge le successive righe della recensione concatenandole in un'unica variabile, formando una singola
             # stringa
-            review = ""
+            review_text = ""
             while review_line is not None and review_line != "":
-                review = review + ' ' + review_line
+                review_text = review_text + ' ' + review_line
                 review_line = file.readline()
 
             # Genera l'ID della recensione
-            match = re.search(r"^(\w{3})(\d+)", file.name)
+
+            fileName = file.name.replace(directory + "\\", "")
+            print(fileName)
+            match = re.search(r"^(\w{3})(\d+)", fileName)
             review_id: str = match.group()
 
+            # Calcola il sentimento
+            analyzer = HuggingFaceAnalyzer()
+            sentiment = analyzer.getScore(review_text)
+
             # Aggiunge la recensione
-            review = Review(stars=stars, text=review, id=review_id)
-            current_product_reviews.append(review)
+            review_text = Review(stars=stars, text=review_text, id=review_id, sentiment=sentiment)
+            current_product_reviews.append(review_text)
 
             # Se il nome del prodotto attuale è diverso dallo scorso vuol dire che ha iniziato a leggere le
             # recensioni di un altro prodotto. Per questo salva il prodotto attuale e inizia a "studiarne" un altro.
