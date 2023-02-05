@@ -2,7 +2,7 @@ import uuid
 from typing import Iterable, Union, List
 from uuid import UUID
 
-from src.apii import Review, Product
+from IndexRetrivalProject.src.apii import Review, Product
 
 
 class ProductQueryCreator:

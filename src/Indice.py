@@ -4,6 +4,7 @@ from whoosh.index import create_in
 from whoosh.fields import *
 from whoosh.writing import AsyncWriter
 
+from IndexRetrivalProject.src.apii import Product
 from IndexRetrivalProject.src.database.database import ProductsDatabase
 from textpreprocessing import TextPreprocessor
 from sentimentanalysis import SentimentAnalyzer as s
@@ -40,7 +41,7 @@ def CreateIndex(dest):
     schema = Schema(nome = ID(stored = True),  # nome dello smartphone
                     stelle = ID(stored = True), # stelle della recensione
                     sentiment = ID(stored = True), # sentimento della recensione
-                    testo = TEXT(stored=True)) #testo della recensione
+                    testo = TEXT(stored=True)) # testo della recensione
 
     # Creo la directory indexdir
     if not os.path.exists( "indexdir"):
@@ -68,15 +69,6 @@ def CreateIndex(dest):
 
             pre = TextPreprocessor.process(recensione)
             recensione = list_to_string(pre)
-
-            """TO DO aggiungo il file al database"""
-            d = ProductsDatabase("database.sqlite")
-            if not d.exists():
-                database = d.create()
-            else:
-                database = d.open()
-
-
 
             """ TO DO funzione di sentiment"""
             #sentiment = s.getScore(testo)

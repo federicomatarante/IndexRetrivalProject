@@ -8,7 +8,7 @@ from whoosh.fields import Schema, ID, TEXT
 from whoosh.index import create_in, open_dir, exists_in, Index
 from whoosh.writing import AsyncWriter
 
-from src.apii import Product
+from IndexRetrivalProject.src.apii import Product
 
 
 class ProductsIndexView:
@@ -33,8 +33,8 @@ class ProductsIndexView:
             products = [products]
         with AsyncWriter(self._index) as writer:
             for product in products:
-                # TODO vedi come aggiungere
-                writer.add_document(nome=product.title, stelle=None, sentiment='0.0', testo=product.reviews)
+                for rewiew in product.reviews:
+                        writer.add_document(nome=product.title, nome_doc = rewiew.id, id_prodotto = product.id,stelle=rewiew.stars, sentiment=rewiew.sentiment, testo=rewiew.text)
             writer.commit()
 
     def delete(self, products: Union[Product, Iterable[Product]]):
@@ -59,10 +59,11 @@ class ProductsIndex:
     def __init__(self, indexDirectoryPath: str):
         self._indexDirectoryPath = indexDirectoryPath
         self._schema = Schema(nome=ID(stored=True),  # nome dello smartphone
+                              nome_doc=ID(stored=True), # nome del documento
+                              id_prodotto=ID(stored=True), # id del prodotto, per cercare nel DB
                               stelle=ID(stored=True),  # stelle della recensione
                               sentiment=ID(stored=True),  # sentimento della recensione
                               testo=TEXT(stored=True))  # testo della recensione
-        # TODO CHANGE SCHEMA?
 
     def create(self) -> ProductsIndexView:
 
@@ -104,3 +105,4 @@ class ProductsIndex:
         self._index.close()
         self._index = None
         self._indexView = None
+

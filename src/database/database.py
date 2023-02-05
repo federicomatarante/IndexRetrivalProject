@@ -2,9 +2,10 @@ import os
 import uuid
 from typing import Iterable, Union, List
 
+from IndexRetrivalProject.src.apii import Product
+from IndexRetrivalProject.src.database.databasecreator import ProductCreator, ProductQueryCreator
 from sqlite_database import SQLiteView, TableSchema, Script
-from src.apii import Product
-from src.database.databasecreator import ProductQueryCreator, ProductCreator
+
 
 
 class DatabaseError(Exception):

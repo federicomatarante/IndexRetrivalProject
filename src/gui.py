@@ -13,8 +13,9 @@ class gui:
         """
         if self.tipo == "Ricerca":
             layoutRicerca = [[sg.Image(filename=("sm4.png"))],
-                            [sg.Text("Ricerca tra le recensioni di smartphone",font=(1,30))],
-                            [sg.Text("Contenuto da cercare", font=22), sg.InputText(size=(65,2),font=16)],
+                            [sg.Text("Ricerca tra le recensioni di uno smartphone",font=(10,2))],
+                            [sg.InputText(size=(45,2),font=16)],
+                            [sg.Text("Cerca tra le recensioni ", font=(10,2)), sg.InputText(size=(45,2),font=16)],
                             [sg.Text("Opinione della recensione", font=22), sg.OptionMenu(("Tutte","Positiva", "Negativa"),size=(12,3))],
                             [sg.Text("                                                                 "),sg.Button("Cerca", font=16)]]
             return sg.Window("Ricerca ", layoutRicerca, element_justification='l', size=(740, 480))
