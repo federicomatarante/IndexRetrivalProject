@@ -28,7 +28,7 @@ class ProductCreator:
         self.reviews = []
 
     def setReviews(self, review_results):
-        self.reviews = [Review(text=review_result['text'], stars=review_result["stars"])
+        self.reviews = [Review(text=review_result['text'], stars=review_result["stars"], id=review_result['id'])
                         for review_result in review_results]
 
     @property

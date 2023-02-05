@@ -37,7 +37,7 @@ class ProductsDatabaseView:
                 })
                 for review in product.reviews:
                     script.insertOne('Review', {
-                        'id': str(review.id),
+                        'id': review.id,
                         'product_id': str(product.id),
                         'text': review.text,
                         'stars': review.stars
@@ -51,7 +51,8 @@ class ProductsDatabaseView:
         """
 
         Retrieves a product from the database. :param productIds: the id of a product, can be single or an iterable.
-        If left empty it retreives every product. of IDs. It can be a string or a UUID. :return: List[Product]: the
+        If left empty it retrieves every product. of IDs. It can be a string or a UUID.
+        :return: List[Product]: the
         list of required Products. It's given in the same order as required in the parameter productIds.
 
         """

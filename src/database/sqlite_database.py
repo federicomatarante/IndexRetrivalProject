@@ -37,7 +37,6 @@ class Script:
         scripts: list[str] = []
         for i in range(0, len(self._queries), 25):
             scripts.append('\n'.join(self._queries[i:i + 25]))
-        print(scripts)
         try:
             for script in scripts:
                 cursor.executescript(script)

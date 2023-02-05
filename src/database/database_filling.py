@@ -1,4 +1,5 @@
 import os
+import re
 
 from src.apii import Product, Review
 from src.database.database import ProductsDatabase
@@ -43,8 +44,12 @@ def get_products(directory: str):
                 review = review + ' ' + review_line
                 review_line = file.readline()
 
+            # Genera l'ID della recensione
+            match = re.search(r"^(\w{3})(\d+)", file.name)
+            review_id: str = match.group()
+
             # Aggiunge la recensione
-            review = Review(stars=stars, text=review)
+            review = Review(stars=stars, text=review, id=review_id)
             current_product_reviews.append(review)
 
             # Se il nome del prodotto attuale è diverso dallo scorso vuol dire che ha iniziato a leggere le
