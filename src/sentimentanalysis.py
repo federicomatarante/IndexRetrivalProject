@@ -14,22 +14,50 @@ class SentimentAnalyzer(ABC):
         pass
 
 
-class HuggingFaceAnalyzer(SentimentAnalyzer):
-    _sentiment_pipeline: Pipeline
+class ReviewsHuggingFaceAnalyzer(SentimentAnalyzer):
+    _sentiment_model: Pipeline
 
     def __init__(self):
-        self._sentiment_pipeline  = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
-
+        self._sentiment_model = pipeline(model="juliensimon/reviews-sentiment-analysis")
 
     def getScore(self, phrase: str) -> float:
         """
         :param phrase: The text to be analyzed.
         :rtype: float. It's a value between -1 and 1.
         """
-        sentiment = self._sentiment_pipeline(phrase)[0]
-        if sentiment['label'] == 'POSITIVE':
+
+        sentiment = self._sentiment_model(phrase)[0]
+        if sentiment['label'] == 'LABEL_1':
             return sentiment["score"]
-        elif sentiment["label"] == 'NEGATIVE':
+        elif sentiment["label"] == 'LABEL_0':
             return -sentiment["score"]
         else:
             raise TypeError(sentiment)
+
+
+class AmazonHuggingFaceAnalyzer(SentimentAnalyzer):
+    _sentiment_model: Pipeline
+
+    def __init__(self):
+        self._sentiment_model = pipeline(model="LiYuan/amazon-review-sentiment-analysis")
+
+    def getScore(self, phrase: str) -> float:
+        """
+        :param phrase: The text to be analyzed.
+        :rtype: float. It's a value between -1 and 1.
+        """
+
+        sentiment = self._sentiment_model(phrase)[0]
+        if sentiment['label'] == '1 star':  # Between -1 and -0.6
+            return -1 + sentiment["score"] * 0.4
+        elif sentiment["label"] == '2 stars':  # Between -0.6 and -0.2
+            return -0.6 + sentiment["score"] * 0.4
+        elif sentiment["label"] == '3 stars':  # between -0.2 and 0.2
+            return -0.2 + sentiment["score"] * 0.4
+        elif sentiment["label"] == '4 stars':  # between 0.2 and 0.6
+            return 0.2 + sentiment["score"] * 0.4
+        elif sentiment["label"] == '5 stars':  # between 0.6 and 1
+            return 0.6 + sentiment["score"] * 0.4
+        else:
+            raise TypeError(sentiment)
+
