@@ -18,7 +18,7 @@ class ReviewsHuggingFaceAnalyzer(SentimentAnalyzer):
     _sentiment_model: Pipeline
 
     def __init__(self):
-        self._sentiment_model = pipeline(model="juliensimon/reviews-sentiment-analysis")
+        self._sentiment_model = pipeline(task='sentiment-analysis', model="juliensimon/reviews-sentiment-analysis")
 
     def getScore(self, phrase: str) -> float:
         """
@@ -43,7 +43,7 @@ class AmazonHuggingFaceAnalyzer(SentimentAnalyzer):
     _sentiment_model: Pipeline
 
     def __init__(self):
-        self._sentiment_model = pipeline(model="LiYuan/amazon-review-sentiment-analysis")
+        self._sentiment_model = pipeline(task='sentiment-analysis', model="LiYuan/amazon-review-sentiment-analysis")
 
     def getScore(self, phrase: str) -> float:
         """

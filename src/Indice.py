@@ -81,7 +81,7 @@ def CreateIndex(dest):
 
             # Calcola il sentimento
             sentiment = analyzer.getScore(recensione)
-            sentiment = str(sentiment)
+            sentiment = str(sentiment) # TODO why?
             # Pre-processa il testo della recensione
             pre = FullPreprocessor.process(recensione)
             pre = ' '.join(pre)
