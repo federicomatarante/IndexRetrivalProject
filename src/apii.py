@@ -2,16 +2,15 @@ import uuid
 from dataclasses import dataclass
 from uuid import UUID
 
-
+# Classe che descrive una recensione
 @dataclass
 class Review:
-    stars: int      # stelle della recensione
-    text: str       # testo della recensione
-    sentiment: float    # sentimento della recensione
-    id: str = None      # nome del documento dalla quale estraggo la recensione
-
-    def __post_init__(self):
-        self.id = str(uuid.uuid4()) if self.id is None else self.id
+    product: str     # prodotto della recensione
+    text: str        # testo della recensione
+    link: str        # link della recensione
+    sentiment: float # sentimento della recensione
+    star: int        # stelle della recensione
+    document: str    # nome del documento dalla quale estraggo la recensione
 
 
 @dataclass

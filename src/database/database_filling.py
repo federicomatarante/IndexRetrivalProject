@@ -1,8 +1,7 @@
 import os
 import re
 
-from src.apii import Product, Review
-from src.database.database import ProductsDatabase
+from IndexRetrivalProject.src.apii import Product, Review
 from src.sentimentanalysis import HuggingFaceAnalyzer
 
 

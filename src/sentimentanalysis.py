@@ -25,6 +25,10 @@ class ReviewsHuggingFaceAnalyzer(SentimentAnalyzer):
         :param phrase: The text to be analyzed.
         :rtype: float. It's a value between -1 and 1.
         """
+        # se il documento contiene più di 512 termini tronco il documento
+        # la funzione di sentiment non riesce a calcolare senza errori per più
+        # di 512 termini
+        phrase = phrase[0:510]
 
         sentiment = self._sentiment_model(phrase)[0]
         if sentiment['label'] == 'LABEL_1':
@@ -47,6 +51,11 @@ class AmazonHuggingFaceAnalyzer(SentimentAnalyzer):
         :rtype: float. It's a value between -1 and 1.
         """
 
+        # se il documento contiene più di 512 termini tronco il documento
+        # la funzione di sentiment non riesce a calcolare senza errori per più
+        # di 512 termini
+        phrase = phrase[0:510]
+
         sentiment = self._sentiment_model(phrase)[0]
         if sentiment['label'] == '1 star':  # Between -1 and -0.6
             return -1 + sentiment["score"] * 0.4
@@ -60,4 +69,3 @@ class AmazonHuggingFaceAnalyzer(SentimentAnalyzer):
             return 0.6 + sentiment["score"] * 0.4
         else:
             raise TypeError(sentiment)
-

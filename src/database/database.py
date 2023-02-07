@@ -4,8 +4,7 @@ from typing import Iterable, Union, List
 
 from src.apii import Product
 from src.database.databasecreator import ProductCreator, ProductQueryCreator
-from sqlite_database import SQLiteView, TableSchema, Script
-
+from IndexRetrivalProject.src.database.sqlite_database import Script, TableSchema, SQLiteView
 
 
 class DatabaseError(Exception):

@@ -105,3 +105,4 @@ class ProductsIndex:
         self._index.close()
         self._index = None
         self._indexView = None
+
