@@ -9,6 +9,7 @@ from whoosh.index import create_in, open_dir, exists_in, Index
 from whoosh.writing import AsyncWriter
 
 from src.apii import Product, Review
+from src.docsmanager import DocsDatabase
 from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
 from src.textpreprocessing import TextPreprocessor, FullPreprocessor
 
@@ -21,7 +22,7 @@ class ProductsIndexView:
         self._index = index
         self.textPreprocessor = textPreprocessor
 
-    def query(self, productQuery: str, reviewsQuery: str) -> list[UUID]:
+    def query(self, reviewsQuery: str) -> list[str]:
         """
         :type productQuery: str. The query in natural language to convert into the index for Products.
         :type reviewsQuery: str. The query in natural language to convert into the index for Reviews.
@@ -47,16 +48,15 @@ class ProductsIndexView:
 
         writer.commit()
 
-    def delete(self, products: Union[Product, Iterable[Product]]):
+    def delete(self, reviews: Union[Review, Iterable[Review]]):
         """
-        :param products: The product to be removed. Can be either a single or a collection.
+        : param reviews: The review to be removed. Can be either a single or a collection.
         """
-        if isinstance(products, Product):
-            products = [products]
+        if isinstance(reviews, Review):
+            reviews = [reviews]
         writer = AsyncWriter(self._index)
-        for product in products:
-            # TODO vedi come eliminare
-            writer.delete_by_term()
+        for review in reviews:
+            writer.delete_by_term(document=review.document)
         writer.commit()
 
 
@@ -83,6 +83,8 @@ class ProductsIndex:
         @:return: ProductsIndexView. An object to use the index.
         """
         if self._index is None:
+            if not os.path.exists(self._indexDirectoryPath):
+                os.makedirs(self._indexDirectoryPath)
             self._index = create_in(self._indexDirectoryPath, self._schema)
             self._indexView = ProductsIndexView(self._index)
         return self._indexView
@@ -118,62 +120,20 @@ class ProductsIndex:
         self._indexView = None
 
 
-def _isFileValid(file_name: str):
-    """
-    Metodo che controlla che un file abbia tutti gli attributi necessari
-    dato che non tutti i documenti risultano essere completi
-    :param file_name: file di cui controllare la completezza
-    :return: true se il file contiene tutti i campi, false altrimenti
-    """
-    try:
-        nome, stelle, link, recensione = "", "", "", "",
-        fd = open(file_name, 'r')
-        nome = fd.readline()
-        stelle = fd.readline().rstrip()
-        link = fd.readline()
-        recensione = fd.readlines()
-        if nome == "" or stelle == "" or link == "" or recensione == "" or not stelle.isdigit():
-            return False
-        else:
-            return True
-    except EOFError:
-        print("Mancano degli attributi")
-        return False
-
-
-def _getReviews(sentimentAnalyzer: SentimentAnalyzer, directory: str) -> list[Review]:
-    reviews: list[Review] = []
-    files = os.listdir(directory)
-
-    for file in files:
-        file_name = directory + "\\" + file
-        # Se il file ha tutti i campi lo inserisco nell'indice
-        if _isFileValid(file_name):
-            # apro il file e leggo i vari campi
-            fd = open(file_name, 'r', encoding="utf-8")
-            nome = fd.readline().rstrip()
-            stelle = int(fd.readline().rstrip())
-            link = fd.readline().rstrip()
-            linee_recensione = fd.readlines()
-            recensione = ' '.join(linee_recensione).replace("\n", "")
-            # Calcola il sentimento
-            sentiment = sentimentAnalyzer.getScore(recensione)
-            review = Review(text=recensione, stars=stelle, document=file_name, link=link, sentiment=sentiment,
-                            product=nome)
-            reviews.append(review)
-
-    return reviews
-
 
 def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, directory: str):
     if not index.exists():
         index.create()
     view = index.open()
-    reviews = _getReviews(sentimentAnalyzer, directory)
-    print(reviews)
-    print("Adding reviews")
+    database = DocsDatabase(directory,sentimentAnalyzer)
+    print("Retreiving reviews...")
+    reviews = database.getDocs()
+    print("Retreived!")
+    print("Adding to the index...")
     view.add(reviews)
+    print(reviews)
+    print("Added!")
     index.close()
 
 
-createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
+#createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
