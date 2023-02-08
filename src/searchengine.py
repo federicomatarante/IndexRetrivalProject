@@ -1,19 +1,16 @@
-from apii import Product
-from database.database import ProductsDatabaseView
 from index import ProductsIndexView
-from whoosh.index import open_dir
-from whoosh.fields import *
+
+from src.docsmanager import DocsDatabase
+
 
 class ProductSearcher:
-    _databaseView: ProductsDatabaseView
+    _docsDatabase: DocsDatabase
     _indexView: ProductsIndexView
 
-    def __init__(self, databaseView: ProductsDatabaseView, indexView: ProductsIndexView):
-        self._databaseView = databaseView
+    def __init__(self, docsDatabase: DocsDatabase, indexView: ProductsIndexView):
+        self._docsDatabase = docsDatabase
         self._indexView = indexView
 
-    def retrive(self, query):
-
-
+    def retrive(self, query): # TODO migliore query
         titles: list[str] = self._indexView.query(query)
-        return [self._databaseView.get(title) for title in titles]
+        return self._docsDatabase.getDocs(titles)
