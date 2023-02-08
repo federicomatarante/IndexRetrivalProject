@@ -91,9 +91,8 @@ class DocsDatabase:
     def create(self):
         os.makedirs(self._path)
 
-    @staticmethod
-    def getAvailablePrefix() -> str:
-        file_names = os.listdir()
+    def getAvailablePrefix(self) -> str:
+        file_names = os.listdir(self._path)
         pattern = re.compile(r'Rev\s*(\d+)')
         numbers = [re.search(pattern, name).group(1) for name in file_names if re.search(pattern, name)]
         last_number = numbers[len(numbers) - 1]
