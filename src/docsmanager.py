@@ -19,7 +19,7 @@ class DocumentManager:
         product = lines[0].rstrip()
         stars = int(lines[1].rstrip())
         link = lines[2].rstrip()
-        text = ' '.join(lines[3:]).replace('\n', '')
+        text = ''.join(lines[3:]).replace('\n', '')
         sentiment = self._sentimentAnalyzer.getScore(text)
         document = file.name[file.name.rindex(os.sep)+1:]
         return Review(product=product, stars=stars, link=link, text=text, document=document, sentiment=sentiment)
