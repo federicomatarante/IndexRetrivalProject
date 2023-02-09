@@ -19,7 +19,7 @@ class DocumentManager:
         product = lines[0].rstrip()
         stars = int(lines[1].rstrip())
         link = lines[2].rstrip()
-        text = ' '.join(lines[3:-1]).replace('\n', '')
+        text = ' '.join(lines[3:]).replace('\n', '')
         sentiment = self._sentimentAnalyzer.getScore(text)
         document = file.name[file.name.rindex(os.sep)+1:]
         return Review(product=product, stars=stars, link=link, text=text, document=document, sentiment=sentiment)
@@ -91,9 +91,8 @@ class DocsDatabase:
     def create(self):
         os.makedirs(self._path)
 
-    @staticmethod
-    def getAvailablePrefix() -> str:
-        file_names = os.listdir()
+    def getAvailablePrefix(self) -> str:
+        file_names = os.listdir(self._path)
         pattern = re.compile(r'Rev\s*(\d+)')
         numbers = [re.search(pattern, name).group(1) for name in file_names if re.search(pattern, name)]
         last_number = numbers[len(numbers) - 1]
