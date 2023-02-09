@@ -15,7 +15,7 @@ class gui:
             layoutRicerca = [[sg.Image(filename=("sm4.png"))],
                             [sg.Text("     Ricerca tra le recensioni di smartphone",font=(2,25))],
                             [sg.InputText(size=(65,2),font=16)],
-                            [sg.Text("         Opinione della recensione", font=22), sg.OptionMenu(("Tutte","Positiva", "Negativa"),size=(12,3))],
+                            [sg.Text("         Opinione della recensione", font=22), sg.OptionMenu(("tutti","molto negativo", "negativo","neutro","positivo","molto positivo"),size=(12,3))],
                             [sg.Text("                                                                 "),sg.Button("Cerca", font=16)]]
             return sg.Window("Ricerca ", layoutRicerca, element_justification='l', size=(740, 480))
 

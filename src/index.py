@@ -135,4 +135,4 @@ def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, dire
     index.close()
 
 
-#createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
+createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
