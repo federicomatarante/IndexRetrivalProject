@@ -1,4 +1,3 @@
-# from src.api import Product
 import os
 import shutil
 from typing import Optional, Iterable, Union
@@ -8,10 +7,10 @@ from whoosh.fields import Schema, ID, TEXT, NUMERIC
 from whoosh.index import create_in, open_dir, exists_in, Index
 from whoosh.writing import AsyncWriter
 
-from src.apii import Product, Review
-from src.docsmanager import DocsDatabase
-from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
-from src.textpreprocessing import TextPreprocessor, FullPreprocessor
+from IndexRetrivalProject.src.apii import Product, Review
+from IndexRetrivalProject.src.docsmanager import DocsDatabase
+from IndexRetrivalProject.src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
+from IndexRetrivalProject.src.textpreprocessing import TextPreprocessor, FullPreprocessor
 
 
 class ProductsIndexView:
@@ -136,4 +135,4 @@ def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, dire
     index.close()
 
 
-#createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
+createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
