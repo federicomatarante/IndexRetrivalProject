@@ -3,15 +3,20 @@ from Test_search import MySearch
 
 
 def remouve_doppi (result):
+    posizioni = []
     for i in range(len(result)-1):
         if result[i].text == result[i+1].text:
-            result.pop(i)
+            posizioni.append(i)
+    for i in range(0,len(posizioni)):
+        result.pop(posizioni[i])
+        for j in range(i,len(posizioni)):
+            posizioni[j] = posizioni[j]-1
 
 #aggiorna il campo i facendogli mostrare il risultato r
 def aggiorna_campo(i, risultato):
     window['-COLUMN'+str(i)+'-'].update(visible=True)
     window['-FIELD' + str(i) + '-'].update("")
-    window['-FIELD' + str(i) + '-'].print(str(i + 1) + "  " + risultato.product+ "," + risultato.document,background_color='#475841', text_color='white')
+    window['-FIELD' + str(i) + '-'].print(str(i + 1) + "  " + risultato.product+ "," +str(risultato.stars)+" "+risultato.document,background_color='#475841', text_color='white')
     window['-FIELD' + str(i) + '-'].print(str(risultato.sentiment) + risultato.text + "...")
 
 def hideField(i):
