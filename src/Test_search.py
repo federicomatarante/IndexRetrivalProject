@@ -40,6 +40,7 @@ def switcher(sentiment) -> tuple:  # |[-1,1]|=2/5: 0.4
 def MySearch(user_query: str, sentiment: str, query_type: str = ""):
     """
     Metodo per passare query all'indice
+    :param risulrati: lista di risultati, viene modificata ad ogni chiamata
     :param ix: riferimento all'indice, prima della chiamata ix = open_dir("indexdir")
     :param user_query: testo acquisito dal campo di testo dall'interfaccia grafica
     :param sentiment: sentimento acquisito da interfaccia grafica
@@ -76,16 +77,15 @@ def MySearch(user_query: str, sentiment: str, query_type: str = ""):
     # Cerco la query
     results = searcher.search(query, limit=50)
     documents = [result["document"] for result in results]
-    print(documents)
     a, path =create_path()
-    print(path)
+
     d = DocsDatabase("C:\\Users\\amndr\\Desktop\\ProgettoGestion\\IndexRetrivalProject\\src\\Doc",sentimentAnalyzer=ReviewsHuggingFaceAnalyzer())
     r = d.getDocs(documents)
 
-    return documents
+    return r
 
 
 
 
 if __name__ == "__main__":
-    MySearch("camera", "tutti")
+    MySearch("camera", "tutti", )

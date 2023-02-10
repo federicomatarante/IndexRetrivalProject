@@ -1,6 +1,11 @@
 import PySimpleGUI as sg
 import Test_search
 
+
+def res_col(i):
+    return [sg.Column(layout=fieldSingle(i), key='-COLUMN'+str(i)+'-', visible=False)]
+
+# resCol = [  fieldCol(i) for i in range(0,10)]
 class gui:
     def __init__(self, tipo, risutlati=None):
         """
@@ -15,6 +20,8 @@ class gui:
         # crea la finestra
         self.window = self.make_window()
 
+
+
     def make_window(self):
         """
         Metodo che utilizzo per risolvere il problema di pysimplegui che non permette
@@ -26,25 +33,11 @@ class gui:
                             [sg.Text("                  Search smartphone reviews",font=(2,25))],
                             [sg.InputText(size=(65,2),font=16)],
                             [sg.Text("                   Review opinion", font=22), sg.OptionMenu(("all","very bad", " negative"," neuter"," positive"," very positive"),size=(12,3))],
-                            [sg.Text("                                                                 "),sg.Button("Search", font=16)]]
-            return sg.Window("Search window", layoutRicerca, element_justification='l', size=(740, 480))
+                            [sg.Text("                                                     "),sg.Button("Search", font=16),sg.Button("Cancel", font=16)],
+                            [sg.Text("", key='-OutputStart-', size=(100, 1))],
+                            [sg.Column(resCol, size=(690, 330), scrollable=True, key='-COLUMN-',vertical_scroll_only=True)]]
+            return sg.Window("Search window", layoutRicerca, element_justification='l', size=(840, 580))
 
-
-        if self.tipo == "Risultati":
-            layout_mostra = [[sg.Image(filename=("sm4.png"))],
-                             [sg.Table(values=self.risultati,
-                                       headings=self.headings,
-                                       max_col_width=35,
-                                       auto_size_columns=True,
-                                       alternating_row_color="DeepSkyBlue3",
-                                       display_row_numbers=True,
-                                       justification='right',
-                                       num_rows=20,
-                                       key='-TABLE-',
-                                       vertical_scroll_only=False,
-                                       row_height=45)],
-                             [sg.Button("OK", font=16)]]
-            return sg.Window("Risultati ricerca", layout_mostra, element_justification='l', size=(740, 480))
 
 def app():
     window = gui("Ricerca")
@@ -66,9 +59,9 @@ def app():
 
             # elimino i risultati della precedente ricerca
             # nel caso ce ne fossero
-            window.risultati.clear()
-            risultati = Test_search.MySearch(query_text,query_sentiment)
+            risultati = []
+            Test_search.MySearch(query_text,query_sentiment, risultati)
 
-
-
-
+            window2 = gui("Risultati",risultati)
+            window,window2 = window2,window
+            window2.window.close()
