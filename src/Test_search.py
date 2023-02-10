@@ -10,6 +10,7 @@ from whoosh.index import open_dir
 # apro la cartella dell'indice
 from whoosh.qparser import MultifieldParser
 
+from IndexRetrivalProject.src.CollectDocument import create_path
 from IndexRetrivalProject.src.docsmanager import DocsDatabase
 from IndexRetrivalProject.src.sentimentanalysis import ReviewsHuggingFaceAnalyzer
 
@@ -74,13 +75,14 @@ def MySearch(user_query: str, sentiment: str, query_type: str = ""):
 
     # Cerco la query
     results = searcher.search(query, limit=50)
-
     documents = [result["document"] for result in results]
     print(documents)
+    a, path =create_path()
+    print(path)
     d = DocsDatabase("C:\\Users\\amndr\\Desktop\\ProgettoGestion\\IndexRetrivalProject\\src\\Doc",sentimentAnalyzer=ReviewsHuggingFaceAnalyzer())
     r = d.getDocs(documents)
-    for rev in r:
-        print(rev.__dict__)
+
+    return documents
 
 
 
