@@ -2,8 +2,8 @@ import os
 import re
 from typing import List, Union, Iterable, Optional
 
-from IndexRetrivalProject.src.apii import Review
-from IndexRetrivalProject.src.sentimentanalysis import SentimentAnalyzer
+from src.apii import Review
+from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
 
 
 class DocumentManager:
@@ -21,7 +21,7 @@ class DocumentManager:
         link = lines[2].rstrip()
         text = ''.join(lines[3:]).replace('\n', '')
         sentiment = self._sentimentAnalyzer.getScore(text)
-        document = file.name[file.name.rindex(os.sep)+1:]
+        document = file.name[file.name.rindex(os.sep) + 1:]
         return Review(product=product, stars=stars, link=link, text=text, document=document, sentiment=sentiment)
 
     @staticmethod

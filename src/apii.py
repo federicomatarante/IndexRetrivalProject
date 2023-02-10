@@ -12,14 +12,3 @@ class Review:
     stars: int        # stelle della recensione
     document: str    # nome del documento dalla quale estraggo la recensione
 
-
-@dataclass
-class Product:
-    title: str  # nome del prodotto
-    link: str   # link amazon al prodotto
-    reviews: list[Review] = None # lista di recensioni
-    id: UUID = None  # id del prodotto, per cercarlo nel DB
-
-    def __post_init__(self):
-        self.reviews = [] if self.reviews is None else self.reviews
-        self.id = uuid.uuid4() if self.id is None else self.id

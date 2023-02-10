@@ -1,16 +1,50 @@
 import os
 import shutil
+from enum import Enum
 from typing import Optional, Iterable, Union
-from uuid import UUID
 
+from whoosh import qparser
 from whoosh.fields import Schema, ID, TEXT, NUMERIC
 from whoosh.index import create_in, open_dir, exists_in, Index
+from whoosh.qparser import MultifieldParser
+from whoosh.query import NumericRange, And
 from whoosh.writing import AsyncWriter
 
-from IndexRetrivalProject.src.apii import Product, Review
-from IndexRetrivalProject.src.docsmanager import DocsDatabase
-from IndexRetrivalProject.src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
-from IndexRetrivalProject.src.textpreprocessing import TextPreprocessor, FullPreprocessor
+from src.apii import Review
+from src.docsmanager import DocsDatabase
+from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
+from src.textpreprocessing import TextPreprocessor, FullPreprocessor
+
+
+class Sentiment(Enum):
+    ALL = 1
+    VERY_POSITIVE = 2
+    POSITIVE = 3
+    NEUTRAL = 4
+    NEGATIVE = 5
+    VERY_NEGATIVE = 6
+
+
+def _switcher(sentiment: Sentiment) -> tuple:  # |[-1,1]|=2/5: 0.4
+    """
+    Metodo per passare da una stringa acquisita dalla gui ad un intervallo
+    di float per cercare all'interno dell'indie i documenti che soddisfano
+    il sentiment
+    :param sentiment: stringa contenente il sentimento
+    :return: tupla (a,b); l'intervallo del sentiment rispettivo.
+    """
+    if sentiment == Sentiment.VERY_NEGATIVE:  # [-1,-0.6]
+        return -1, -0.6
+    if sentiment == Sentiment.NEGATIVE:  # [-0.6,-0.2]
+        return -0, 6, -0, 2
+    if sentiment == Sentiment.NEUTRAL:  # [-0.2,0.2]
+        return -0.2, 0.2
+    if sentiment == Sentiment.POSITIVE:  # [0.2,0.6]
+        return 0.2, 0.6
+    if sentiment == Sentiment.VERY_POSITIVE:  # [0.6,1]
+        return 0.6, 1
+    if sentiment == Sentiment.ALL:
+        return -1, 1
 
 
 class ProductsIndexView:
@@ -21,13 +55,32 @@ class ProductsIndexView:
         self._index = index
         self.textPreprocessor = textPreprocessor
 
-    def query(self, reviewsQuery: str) -> list[str]:
+    def query(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> list[
+        str]:
         """
-        :type productQuery: str. The query in natural language to convert into the index for Products.
-        :type reviewsQuery: str. The query in natural language to convert into the index for Reviews.
+        :type query: str. The query in natural language to convert into the index for Reviews.
         :rtype: a list of product's ids in decreasing order of score.
         """
-        pass
+        if orSearch:
+            type_parser = qparser.OrGroup
+        else:
+            type_parser = qparser.AndGroup
+
+        with self._index.searcher() as searcher:
+            # Creo la query
+            parser = MultifieldParser(["nome_prodotto", "testo_processato"], schema=self._index.schema,
+                                      group=type_parser)
+            query = parser.parse(query)
+
+            minSentiment, maxSentiment = _switcher(sentiment)
+            sentiment_filter = NumericRange("sentiment", minSentiment, maxSentiment)
+            query = And([query, sentiment_filter])
+
+            # Cerco la query
+            results = searcher.search(query, limit=limit)
+            documents = [result["document"] for result in results]
+
+        return documents
 
     def add(self, reviews: Union[Review, Iterable[Review]]):
         """
@@ -38,11 +91,8 @@ class ProductsIndexView:
         writer = AsyncWriter(self._index)
         for review in reviews:
             writer.add_document(nome_prodotto=review.product,
-                                stelle=review.stars,
-                                link=review.link,
                                 sentiment=review.sentiment,
                                 document=review.document,
-                                testo_recensione=review.text,
                                 testo_processato=self.textPreprocessor.process(review.text))
 
         writer.commit()
@@ -68,11 +118,8 @@ class ProductsIndex:
     def __init__(self, indexDirectoryPath: str):
         self._indexDirectoryPath = indexDirectoryPath
         self._schema = Schema(nome_prodotto=TEXT(stored=True),  # nome del prodotto
-                              stelle=NUMERIC(stored=True),  # stelle della recensione
-                              link=ID(stored=True),  # link amazon al prodotto recensito
                               sentiment=NUMERIC(stored=True),  # sentimento estratto dalla recensione
                               document=ID(stored=True),  # nome del documento contenente la recensione
-                              testo_recensione=TEXT(stored=True),  # testo della recensione nella sua interezza
                               testo_processato=TEXT)  # testo della recensione pre-processato
 
     def create(self) -> ProductsIndexView:
@@ -118,21 +165,3 @@ class ProductsIndex:
         self._index = None
         self._indexView = None
 
-
-
-def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, directory: str):
-    if not index.exists():
-        index.create()
-    view = index.open()
-    database = DocsDatabase(directory,sentimentAnalyzer)
-    print("Retreiving reviews...")
-    reviews = database.getDocs()
-    print("Retreived!")
-    print("Adding to the index...")
-    view.add(reviews)
-    print(reviews)
-    print("Added!")
-    index.close()
-
-
-createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
