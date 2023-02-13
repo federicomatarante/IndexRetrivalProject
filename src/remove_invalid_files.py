@@ -62,7 +62,7 @@ def check_for_duplicates(path):
 
 
 # specify the directory you want to check for duplicates
-directory = 'C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\Doc'
+directory = 'C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\Documents'
 
 # call the function to remove duplicates
 check_for_duplicates(directory)

@@ -11,4 +11,3 @@ class Review:
     sentiment: float # sentimento della recensione
     stars: int        # stelle della recensione
     document: str    # nome del documento dalla quale estraggo la recensione
-

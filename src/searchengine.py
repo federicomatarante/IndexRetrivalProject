@@ -15,8 +15,11 @@ class ProductSearcher:
 
     def retrive(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> list[
         Review]:
-        titles: list[str] = self._indexView.query(query, sentiment, limit, orSearch)
-        return self._docsDatabase.getDocs(titles)
+        results: list[tuple[str, float]] = self._indexView.query(query, sentiment, limit, orSearch)
+        titles = [result[0] for result in results]
+        sentiments = [result[1] for result in results]
+
+        return self._docsDatabase.getDocs(titles, sentiments)
 
 
 """ # How to use code example

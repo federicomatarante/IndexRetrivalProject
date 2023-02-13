@@ -56,7 +56,7 @@ class ProductsIndexView:
         self.textPreprocessor = textPreprocessor
 
     def query(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> list[
-        str]:
+        tuple[str, float]]:
         """
         :type query: str. The query in natural language to convert into the index for Reviews.
         :rtype: a list of product's ids in decreasing order of score.
@@ -75,11 +75,9 @@ class ProductsIndexView:
             minSentiment, maxSentiment = _switcher(sentiment)
             sentiment_filter = NumericRange("sentiment", minSentiment, maxSentiment)
             query = And([query, sentiment_filter])
-
             # Cerco la query
             results = searcher.search(query, limit=limit)
-            documents = [result["document"] for result in results]
-
+            documents = [(result["document"], result["sentiment"]) for result in results]
         return documents
 
     def add(self, reviews: Union[Review, Iterable[Review]]):
@@ -164,4 +162,3 @@ class ProductsIndex:
         self._index.close()
         self._index = None
         self._indexView = None
-

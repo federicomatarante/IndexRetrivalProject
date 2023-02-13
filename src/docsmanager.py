@@ -12,7 +12,7 @@ class DocumentManager:
     def __init__(self, sentimentAnalyzer: SentimentAnalyzer):
         self._sentimentAnalyzer = sentimentAnalyzer
 
-    def getReview(self, file) -> Optional[Review]:
+    def getReview(self, file, sentiment: float = None) -> Optional[Review]:
         lines: list[str] = file.readlines()
         if not DocumentManager._isFileValid(lines):
             return None
@@ -20,7 +20,8 @@ class DocumentManager:
         stars = int(lines[1].rstrip())
         link = lines[2].rstrip()
         text = ''.join(lines[3:]).replace('\n', '')
-        sentiment = self._sentimentAnalyzer.getScore(text)
+        if sentiment is None:
+            sentiment = self._sentimentAnalyzer.getScore(text)
         document = file.name[file.name.rindex(os.sep) + 1:]
         return Review(product=product, stars=stars, link=link, text=text, document=document, sentiment=sentiment)
 
@@ -40,7 +41,7 @@ class DocumentManager:
             return False
         if lines[0].rstrip() == "" or lines[2].rstrip() == "":
             return False
-        if len([line for line in lines[3:-1] if line == "" or line == '\n']) == len(lines[3:-1]):
+        if len([line for line in lines[3:] if line == "" or line == '\n']) == len(lines[3:]):
             return False
         if not lines[1].rstrip().isdigit():
             return False
@@ -55,16 +56,26 @@ class DocsDatabase:
         self._path = path
         self._documentManager = DocumentManager(sentimentAnalyzer)
 
-    def getDocs(self, documents: Union[str, Iterable[str]] = None) -> List[Review]:
+    def getDocs(self, documents: Union[str, Iterable[str]] = None, sentiments: list[float] = None) -> List[Review]:
         reviews: List[Review] = []
+        if sentiments is not None and documents is not None and len(documents) != len(sentiments):
+            raise ValueError()
         if isinstance(documents, str):
             documents = [documents]
-        filenames = os.listdir(self._path)
+
         if documents is not None:
-            filenames = filter(lambda name: name in documents, filenames)
+            filenames = documents
+        else:
+            filenames = os.listdir(self._path)
+
+        i = 0
         for filename in filenames:
-            with open(self._path + os.sep + filename, 'r') as file:
-                review: Optional[Review] = self._documentManager.getReview(file)
+            with open(self._path + os.sep + filename, 'r', encoding='utf-8') as file:
+                if sentiments is not None:
+                    review: Optional[Review] = self._documentManager.getReview(file,sentiments[i])
+                else:
+                    review: Optional[Review] = self._documentManager.getReview(file)
+                i = i + 1
                 if review is not None:
                     reviews.append(review)
 
@@ -76,7 +87,7 @@ class DocsDatabase:
         if isinstance(reviews, Review):
             reviews = [reviews]
         for review in reviews:
-            with open(self._path + os.sep + review.document, "w") as file:
+            with open(self._path + os.sep + review.document, "w",encoding='utf-8') as file:
                 self._documentManager.writeReview(file, review)
 
     def removeDocs(self, reviews: Union[Review, Iterable[Review]]):
