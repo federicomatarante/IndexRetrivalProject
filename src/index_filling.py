@@ -11,11 +11,12 @@ def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, dire
     print("Retreiving reviews...")
     reviews = database.getDocs()
     print("Retreived!")
+    print(reviews)
+
     print("Adding to the index...")
     view.add(reviews)
-    print(reviews)
     print("Added!")
     index.close()
 
 
-createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')
+#createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Documents')
