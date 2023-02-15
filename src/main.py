@@ -1,3 +1,5 @@
+import os.path
+
 import PySimpleGUI as sg
 from src.docsmanager import DocsDatabase
 from src.index import ProductsIndex, Sentiment
@@ -79,6 +81,7 @@ layoutRicerca = [[sg.Image(filename=("sm4.png"))],
 
 window = sg.Window("Search window", layoutRicerca, element_justification='l', size=(840, 580))
 
+print(os.path.realpath(__file__))
 index = ProductsIndex("C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\indexdir")
 if not index.exists():
     index.create()
