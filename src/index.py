@@ -11,8 +11,6 @@ from whoosh.query import NumericRange, And
 from whoosh.writing import AsyncWriter
 
 from src.apii import Review
-from src.docsmanager import DocsDatabase
-from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
 from src.textpreprocessing import TextPreprocessor, FullPreprocessor
 
 

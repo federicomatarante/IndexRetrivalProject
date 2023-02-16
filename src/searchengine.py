@@ -1,8 +1,7 @@
-from index import ProductsIndexView, Sentiment, ProductsIndex
+from index import ProductsIndexView, Sentiment
 from src.apii import Review
 
 from src.docsmanager import DocsDatabase
-from src.sentimentanalysis import ReviewsHuggingFaceAnalyzer
 
 
 class ProductSearcher:
@@ -13,8 +12,8 @@ class ProductSearcher:
         self._docsDatabase = docsDatabase
         self._indexView = indexView
 
-    def retrive(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> list[
-        Review]:
+    def retrieve(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> \
+            list[Review]:
         results: list[str] = self._indexView.query(query, sentiment, limit, orSearch)
         return self._docsDatabase.getDocs(results)
 

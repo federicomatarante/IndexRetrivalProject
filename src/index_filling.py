@@ -1,13 +1,12 @@
 from src.docsmanager import DocsDatabase
 from src.index import ProductsIndex
-from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
 
 
-def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, directory: str):
+def createIndex(index: ProductsIndex, directory: str):
     if not index.exists():
         index.create()
     view = index.open()
-    database = DocsDatabase(directory, sentimentAnalyzer)
+    database = DocsDatabase(directory)
     print("Retreiving reviews...")
     reviews = database.getDocs()
     print("Retreived!")

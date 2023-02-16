@@ -4,7 +4,6 @@ import PySimpleGUI as sg
 from src.docsmanager import DocsDatabase
 from src.index import ProductsIndex, Sentiment
 from src.searchengine import ProductSearcher
-from src.sentimentanalysis import ReviewsHuggingFaceAnalyzer
 
 
 def switcher(sentiment) -> Sentiment:  # |[-1,1]|=2/5: 0.4
@@ -86,8 +85,7 @@ index = ProductsIndex("C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\
 if not index.exists():
     index.create()
 indexView = index.open()
-docsDatabase = DocsDatabase("C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\DOc",
-                            ReviewsHuggingFaceAnalyzer())
+docsDatabase = DocsDatabase("C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\DOc")
 searcher: ProductSearcher = ProductSearcher(docsDatabase=docsDatabase, indexView=indexView)
 
 while True:

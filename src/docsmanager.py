@@ -6,24 +6,20 @@ from src.apii import Review
 from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
 
 
+def getReview(file) -> Optional[Review]:
+    lines: list[str] = file.readlines()
+    if not DocumentManager._isFileValid(lines):
+        return None
+    product = lines[0].rstrip()
+    stars = int(lines[1].rstrip())
+    link = lines[2].rstrip()
+    sentiment = float(lines[3].rstrip())
+    text = ''.join(lines[4:]).replace('\n', '')
+    document = file.name[file.name.rindex(os.sep) + 1:]
+    return Review(product=product, stars=stars, link=link, text=text, document=document, sentiment=sentiment)
+
+
 class DocumentManager:
-    _sentimentAnalyzer: SentimentAnalyzer
-
-    def __init__(self, sentimentAnalyzer: SentimentAnalyzer):
-        self._sentimentAnalyzer = sentimentAnalyzer
-
-    def getReview(self, file) -> Optional[Review]:
-        lines: list[str] = file.readlines()
-        if not DocumentManager._isFileValid(lines):
-            return None
-        product = lines[0].rstrip()
-        stars = int(lines[1].rstrip())
-        link = lines[2].rstrip()
-        sentiment = float(lines[3].rstrip())
-        text = ''.join(lines[4:]).replace('\n', '')
-        document = file.name[file.name.rindex(os.sep) + 1:]
-        return Review(product=product, stars=stars, link=link, text=text, document=document, sentiment=sentiment)
-
     @staticmethod
     def writeReview(file, review: Review):
         lines: list[str] = [
@@ -52,9 +48,9 @@ class DocsDatabase:
     _path: str
     _documentManager: DocumentManager
 
-    def __init__(self, path: str, sentimentAnalyzer: SentimentAnalyzer):
+    def __init__(self, path: str):
         self._path = path
-        self._documentManager = DocumentManager(sentimentAnalyzer)
+        self._documentManager = DocumentManager()
 
     def getDocs(self, documents: Union[str, Iterable[str]] = None) -> List[Review]:
         reviews: List[Review] = []
@@ -69,7 +65,7 @@ class DocsDatabase:
         i = 0
         for filename in filenames:
             with open(self._path + os.sep + filename, 'r', encoding='utf-8') as file:
-                review: Optional[Review] = self._documentManager.getReview(file)
+                review: Optional[Review] = getReview(file)
                 i = i + 1
                 if review is not None:
                     reviews.append(review)
