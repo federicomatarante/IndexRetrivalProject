@@ -34,7 +34,7 @@ def _switcher(sentiment: Sentiment) -> tuple:  # |[-1,1]|=2/5: 0.4
     if sentiment == Sentiment.VERY_NEGATIVE:  # [-1,-0.6]
         return -1, -0.6
     if sentiment == Sentiment.NEGATIVE:  # [-0.6,-0.2]
-        return -0, 6, -0, 2
+        return -0.6, -0.2
     if sentiment == Sentiment.NEUTRAL:  # [-0.2,0.2]
         return -0.2, 0.2
     if sentiment == Sentiment.POSITIVE:  # [0.2,0.6]
