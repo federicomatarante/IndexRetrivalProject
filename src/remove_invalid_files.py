@@ -1,5 +1,6 @@
 import os
 import hashlib
+from CollectDocument import create_path
 
 
 def hash_file(filename):
@@ -62,7 +63,13 @@ def check_for_duplicates(path):
 
 
 # specify the directory you want to check for duplicates
-directory = 'C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\Documents'
+n1,n2,n3,n4, directory = create_path()
+
+files = os.listdir(directory)
+i = 0
+for file in files:
+    i = i+1
+print(i)
 
 # call the function to remove duplicates
-check_for_duplicates(directory)
+#check_for_duplicates(directory)

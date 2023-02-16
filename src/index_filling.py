@@ -1,6 +1,6 @@
-from src.docsmanager import DocsDatabase
-from src.index import ProductsIndex
-from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
+from docsmanager import DocsDatabase
+from index import ProductsIndex
+from sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
 
 
 def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, directory: str):
@@ -18,5 +18,5 @@ def createIndex(index: ProductsIndex, sentimentAnalyzer: SentimentAnalyzer, dire
     print("Added!")
     index.close()
 
-
-#createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Documents')
+if __name__ == "__main__":
+    createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')

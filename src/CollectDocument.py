@@ -1,15 +1,9 @@
-# ------------------------------------------------------------------- #
-"""
-Modulo che si occupa di estrapolare il contenuto da un file csv per creare
-un text repository dal quale poi costruire l'indice
-"""
-# ------------------------------------------------------------------- #
-
+import random
+from sentimentanalysis import ReviewsHuggingFaceAnalyzer
 import csv
 import os
 
 half_link = "https://www.amazon.it/s?k="
-
 
 def create_link(stringa):
     """
@@ -74,6 +68,7 @@ def collect_document():
 
     # Per ogni file lo apro in lettura
     input_file = [s1,s2,s3,s4]
+    sentiment_analyzer = ReviewsHuggingFaceAnalyzer()
     for filen in input_file:
         with open(filen,'r',encoding = 'ISO-8859-1')as file:
 
@@ -88,13 +83,16 @@ def collect_document():
                 print(nome_prodotto)
                 recensione = riga[4]
                 stelle = riga[3]
-
+                sentimento = sentiment_analyzer.getScore(recensione)
                 # Creo il file testuale e ci scrivo dentro
                 fd=open(dest + "Rev" + str(k) + ".txt", 'w',encoding="utf-8")
                 k=k+1
                 fd.write(nome_prodotto+"\n")
                 fd.write(stelle+"\n")
                 fd.write(create_link(nome_prodotto)+"\n")
+
+                # Scrivo il sentimento della recensione
+                fd.write(str(sentimento)+"\n")
 
                 # Per una questione di leggibilità del file scrivo la recensione
                 # splittata su più righe
@@ -109,49 +107,17 @@ def collect_document():
                         token_for_word = 0
                 fd.close()
 
-    """
-class CollectDocument:
-    def __init__(self):
-        s1,s2,s3,s4,dest = create_path()
-        if not os.path.exists(dest):
-            os.mkdir(dest)
-        k = 0
 
+def RestringiCollezione(directory):
+    files = os.listdir(directory)
+    for file in files:
+        valore = random.randrange(1, 10)
+        if valore < 5:
+            os.remove(directory+file)
 
-
-
-        with open(source, newline="", encoding="ISO-8859-1") as filecsv:
-            while (csv.reader(filecsv, delimiter=",") and k <= 17248):
-                k = k + 1
-                try:
-                    lettore = csv.reader(filecsv, delimiter=",")
-                    header = next(lettore)
-                    file_name = create_name(header[1])
-                    file_name = delete_space(file_name)
-                    fd = open(dest + "Rev" + str(k) + file_name + ".txt", 'w')
-
-                    fd.write(header[1] + "\n")  # Nome del prodotto
-                    fd.write(header[5] + "\n")  # Stelle della recensione
-                    link = create_link(header[1])
-                    fd.write(link + '\n')  # link amazon del prodotto
-                    text = header[4]
-
-                    token_for_word = 0
-                    text = str(text)
-                    text = text.split()
-                    for t in text:  # recensione separata su più righe
-                        fd.write(t + " ")
-                        token_for_word = token_for_word + 1
-                        if token_for_word == 15:
-                            fd.write('\n')
-                            token_for_word = 0
-                    fd.close()
-                except:
-                    pass
-        filecsv.close()
-"""
 
 # Per creare una text repository eseguire lo script come programma
 if __name__ == '__main__':
-    print("Creo la collezione di documenti")
-    collect_document()
+    n1,n2,n3,n4,Dir = create_path()
+    RestringiCollezione(Dir)
+    #collect_document()
