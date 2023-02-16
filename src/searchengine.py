@@ -9,11 +9,22 @@ class ProductSearcher:
     _indexView: ProductsIndexView
 
     def __init__(self, docsDatabase: DocsDatabase, indexView: ProductsIndexView):
+        """
+        :param docsDatabase: the database where the documents are stored.
+        :param indexView: the index view where to search.
+        """
         self._docsDatabase = docsDatabase
         self._indexView = indexView
 
     def retrieve(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> \
             list[Review]:
+        """
+        :param query: the query to search.
+        :param sentiment: the sentiment of the reviews to search.
+        :param limit: the maximum number of reviews to retrieve.
+        :param orSearch: if true, the query is searched as an OR query, otherwise as an AND query.
+        :return: the list of reviews that match the query.
+        """
         results: list[str] = self._indexView.query(query, sentiment, limit, orSearch)
         return self._docsDatabase.getDocs(results)
 

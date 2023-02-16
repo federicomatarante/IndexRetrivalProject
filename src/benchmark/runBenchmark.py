@@ -32,5 +32,8 @@ def run():
     print(f"Mean Average Precision: {benchmark_results.getMeanAveragePrecision()}")
 
 
+"""
+Run the benchmark.
+"""
 if __name__ == '__main__':
     run()

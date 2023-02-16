@@ -102,10 +102,10 @@ while True:
             if term == "&":
                 and_type = 1
 
-        results = searcher.retrive(query=query, sentiment=switcher(sentiment))
+        results = searcher.retrieve(query=query, sentiment=switcher(sentiment))
 
         # rimuovo i duplicati
-        remouve_doppi(results)
+        remouve_doppi(results) # TODO serve ancora?
         i = 1
         for i in range(0, 10):
             if i < len(results):

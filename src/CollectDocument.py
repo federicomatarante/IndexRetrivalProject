@@ -5,18 +5,19 @@ import os
 
 half_link = "https://www.amazon.it/s?k="
 
+
 def create_link(stringa):
     """
     Metodo che crea un link alla pagina amazon a partire da un prodotto
     """
     i = stringa.find('(')
-    nome = stringa[0:i]   # estraggo i caratteri fino alla parentesi
-    nome = nome.replace(" ","+") # sostituisco gli spazi con dei +
+    nome = stringa[0:i]  # estraggo i caratteri fino alla parentesi
+    nome = nome.replace(" ", "+")  # sostituisco gli spazi con dei +
 
     # se l' ultimo carattere è un + lo elimino
     if nome[-1] == "+":
-        nome = nome[0:len(nome)-1]
-    return half_link+nome
+        nome = nome[0:len(nome) - 1]
+    return half_link + nome
 
 
 def delete_space(strina):
@@ -29,6 +30,7 @@ def delete_space(strina):
 def replace(stringa):
     stringa = stringa.replace("*", " ")
     return stringa
+
 
 def create_name(stringa):
     """
@@ -46,32 +48,30 @@ def create_path():
     """
     s = (os.path.realpath(__file__))
     i = len(s)
-    while s[i-1] != "\\": i=i-1
+    while s[i - 1] != "\\": i = i - 1
     s = s[0:i]
-    return s+"Amazon_Unlocked_Mobile11.csv",s+"Amazon_Unlocked_Mobile12.csv",\
-           s+"Amazon_Unlocked_Mobile21.csv",s+"Amazon_Unlocked_Mobile22.csv",s+"Doc\\"
+    return s + "Amazon_Unlocked_Mobile11.csv", s + "Amazon_Unlocked_Mobile12.csv", \
+           s + "Amazon_Unlocked_Mobile21.csv", s + "Amazon_Unlocked_Mobile22.csv", s + "Doc\\"
 
 
-# ------------------------------------------------------------------- #
-# Metodo che si occupa di costruire la Document repository
-# ------------------------------------------------------------------- #
 def collect_document():
-
+    """
+    # Metodo che si occupa di costruire la Document repository
+    """
     # Creo i path dei file sorgenti e della text repository
-    s1,s2,s3,s4, dest = create_path()
+    s1, s2, s3, s4, dest = create_path()
 
     if not os.path.exists(dest):
         os.mkdir(dest)
 
     # Numero che uso per incrementare i nomi deo dei documenti
-    k=0
+    k = 0
 
     # Per ogni file lo apro in lettura
-    input_file = [s1,s2,s3,s4]
+    input_file = [s1, s2, s3, s4]
     sentiment_analyzer = ReviewsHuggingFaceAnalyzer()
     for filen in input_file:
-        with open(filen,'r',encoding = 'ISO-8859-1')as file:
-
+        with open(filen, 'r', encoding='ISO-8859-1') as file:
 
             reader = csv.reader(file)
 
@@ -79,20 +79,20 @@ def collect_document():
             for riga in reader:
                 half_name = replace(str(riga[0]))
                 half_name = delete_space(half_name)
-                nome_prodotto = str(riga[1]+" "+half_name)
+                nome_prodotto = str(riga[1] + " " + half_name)
                 print(nome_prodotto)
                 recensione = riga[4]
                 stelle = riga[3]
                 sentimento = sentiment_analyzer.getScore(recensione)
                 # Creo il file testuale e ci scrivo dentro
-                fd=open(dest + "Rev" + str(k) + ".txt", 'w',encoding="utf-8")
-                k=k+1
-                fd.write(nome_prodotto+"\n")
-                fd.write(stelle+"\n")
-                fd.write(create_link(nome_prodotto)+"\n")
+                fd = open(dest + "Rev" + str(k) + ".txt", 'w', encoding="utf-8")
+                k = k + 1
+                fd.write(nome_prodotto + "\n")
+                fd.write(stelle + "\n")
+                fd.write(create_link(nome_prodotto) + "\n")
 
                 # Scrivo il sentimento della recensione
-                fd.write(str(sentimento)+"\n")
+                fd.write(str(sentimento) + "\n")
 
                 # Per una questione di leggibilità del file scrivo la recensione
                 # splittata su più righe
@@ -109,15 +109,22 @@ def collect_document():
 
 
 def RestringiCollezione(directory):
+    """
+    Metodo che elimina una parte delle recensioni presenti nella text repository
+    """
     files = os.listdir(directory)
     for file in files:
         valore = random.randrange(1, 10)
         if valore < 5:
-            os.remove(directory+file)
+            os.remove(directory + file)
+
+
+def run():
+    n1, n2, n3, n4, Dir = create_path()
+    RestringiCollezione(Dir)
+    # collect_document()
 
 
 # Per creare una text repository eseguire lo script come programma
 if __name__ == '__main__':
-    n1,n2,n3,n4,Dir = create_path()
-    RestringiCollezione(Dir)
-    #collect_document()
+    run()

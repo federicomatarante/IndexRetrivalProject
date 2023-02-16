@@ -15,6 +15,10 @@ class SentimentAnalyzer(ABC):
 
 
 class ReviewsHuggingFaceAnalyzer(SentimentAnalyzer):
+    """
+    This uses the HuggingFace pipeline to analyze the sentiment of a phrase.
+    The model used is: juliensimon/reviews-sentiment-analysis.
+    """
     _sentiment_model: Pipeline
 
     def __init__(self):
@@ -40,6 +44,10 @@ class ReviewsHuggingFaceAnalyzer(SentimentAnalyzer):
 
 
 class AmazonHuggingFaceAnalyzer(SentimentAnalyzer):
+    """
+    This uses the HuggingFace pipeline to analyze the sentiment of a phrase.
+    The model used is: LiYuan/amazon-review-sentiment-analysis.
+    """
     _sentiment_model: Pipeline
 
     def __init__(self):

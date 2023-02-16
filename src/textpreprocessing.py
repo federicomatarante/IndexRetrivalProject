@@ -18,6 +18,14 @@ class TextPreprocessor(ABC):
 
 
 class FullPreprocessor(TextPreprocessor):
+    """
+    The phases of this preprocessing are:
+    1. Tokenization
+    2. Stopwords removal
+    3. Syntactic filtering ( it only keeps nouns )
+    4. Stemming
+    5. Lemmatization
+    """
 
     @staticmethod
     def process(text: str, language: str = 'english') -> list[str]:

@@ -62,14 +62,22 @@ def check_for_duplicates(path):
                     hash_keys[file_hash] = index
 
 
-# specify the directory you want to check for duplicates
-n1,n2,n3,n4, directory = create_path()
+def run():
+    # specify the directory you want to check for duplicates
+    n1, n2, n3, n4, directory = create_path()
 
-files = os.listdir(directory)
-i = 0
-for file in files:
-    i = i+1
-print(i)
+    files = os.listdir(directory)
+    i = 0
+    for file in files:
+        i = i + 1
+    print(i)
 
-# call the function to remove duplicates
-#check_for_duplicates(directory)
+    # call the function to remove duplicates
+    check_for_duplicates(directory)
+
+
+"""
+Questo file rimuove i file duplicati e i file vuoti.
+"""
+if __name__ == 'main':
+    run()
