@@ -1,6 +1,6 @@
-from src.docsmanager import DocsDatabase
-from src.index import ProductsIndex
-from src.CollectDocument import create_path
+from docsmanager import DocsDatabase
+from index import ProductsIndex
+from CollectDocument import create_path
 
 
 def createIndex(index: ProductsIndex, directory: str):

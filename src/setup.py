@@ -12,7 +12,6 @@ if __name__ == "__main__":
 
     # Rimuovo file duplicati
     n1,directory = create_path()
-    check_for_duplicates(directory)
 
     # Creo l'indice sulla text repository
     createIndex(ProductsIndex("indexdir"), ReviewsHuggingFaceAnalyzer(), 'Doc')

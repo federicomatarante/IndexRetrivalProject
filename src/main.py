@@ -1,10 +1,10 @@
 import os.path
 
 import PySimpleGUI as sg
-from src.docsmanager import DocsDatabase
-from src.index import ProductsIndex, Sentiment
-from src.searchengine import ProductSearcher
-from src.CollectDocument import create_path
+from docsmanager import DocsDatabase
+from index import ProductsIndex, Sentiment
+from searchengine import ProductSearcher
+from CollectDocument import create_path
 
 
 def switcher(sentiment) -> Sentiment:  # |[-1,1]|=2/5: 0.4
@@ -15,6 +15,7 @@ def switcher(sentiment) -> Sentiment:  # |[-1,1]|=2/5: 0.4
     :param sentiment: stringa contenente il sentimento
     :return: tupla (a,b); l'intervallo del sentiment rispettivo.
     """
+    print(sentiment)
     if sentiment == "very bad":  # [-1,-0.6]
         return Sentiment.VERY_NEGATIVE
     if sentiment == "bad":  # [-0.6,-0.2]
@@ -67,16 +68,15 @@ def fieldCol(i):
 
 
 # L'intera colonna dei risultati (inizializzata separatamente per essere scrollabile
-resCol = [fieldCol(i) for i in range(0, 10)]
+resCol = [fieldCol(i) for i in range(0, 30)]
 
 layoutRicerca = [[sg.Image(filename=("sm4.png"))],
                  [sg.Text("                  Search smartphone reviews", font=(2, 25))],
                  [sg.InputText(size=(65, 2), font=16)],
                  [sg.Text("                   Review opinion", font=22),
-                  sg.OptionMenu(("all", "very bad", "negative", "neuter", "positive", "very positive"),
+                  sg.OptionMenu(("all", "very bad", "bad", "neuter", "positive", "very positive"),
                                 default_value='all', size=(12, 3))],
-                 [sg.Text("                                                     "), sg.Button("Search", font=16),
-                  sg.Button("Cancel", font=16)],
+                 [sg.Text("                                                     "), sg.Button("Search", font=16)],
                  [sg.Text("", key='-OutputStart-', size=(100, 1))],
                  [sg.Column(resCol, size=(690, 330), scrollable=True, key='-COLUMN-', vertical_scroll_only=True)]]
 
@@ -104,12 +104,21 @@ while True:
         query_type = query.split()
         for term in query_type:
             if term == "&":
-                and_type = 1
-        print("cerco")
+                and_type = 1f
+
         results = searcher.retrieve(query=query, sentiment=switcher(sentiment))
-        print("finito di cercare")
+        if sentiment ==Sentiment.VERY_POSITIVE or sentiment == Sentiment.POSITIVE or sentiment == Sentiment.ALL:
+            results.sort(key= lambda x : x.sentiment)
+        else:
+            results.sort(key = lambda x : x.sentiment)
+            lista2 = []
+            i = len(results)
+            while i > 0:
+                lista2.append(results[i-1])
+                i = i-1
+            results = lista2
         i = 1
-        for i in range(0, 10):
+        for i in range(0, 30):
             if i < len(results):
                 aggiorna_campo(i, results[i])
                 print(results[i])

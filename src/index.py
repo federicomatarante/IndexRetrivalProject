@@ -10,8 +10,8 @@ from whoosh.qparser import MultifieldParser
 from whoosh.query import NumericRange, And
 from whoosh.writing import AsyncWriter
 
-from src.apii import Review
-from src.textpreprocessing import TextPreprocessor, FullPreprocessor
+from apii import Review
+from textpreprocessing import TextPreprocessor, FullPreprocessor
 
 
 class Sentiment(Enum):

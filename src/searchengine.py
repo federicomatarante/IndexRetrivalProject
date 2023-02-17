@@ -1,7 +1,7 @@
 from index import ProductsIndexView, Sentiment
-from src.apii import Review
+from apii import Review
 
-from src.docsmanager import DocsDatabase
+from docsmanager import DocsDatabase
 
 
 class ProductSearcher:
