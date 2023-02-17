@@ -2,8 +2,8 @@ import os
 import re
 from typing import List, Union, Iterable, Optional
 
-from IndexRetrivalProject.src.apii import Review
-from IndexRetrivalProject.src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
+from src.apii import Review
+from src.sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
 
 
 class DocumentManager:
@@ -87,7 +87,7 @@ class DocsDatabase:
         i = 0
         for filename in filenames:
             with open(self._path + os.sep + filename, 'r', encoding='utf-8') as file:
-                review: Optional[Review] = getReview(file)
+                review: Optional[Review] = self._documentManager.getReview(file)
                 i = i + 1
                 if review is not None:
                     reviews.append(review)

@@ -4,7 +4,7 @@ import PySimpleGUI as sg
 from src.docsmanager import DocsDatabase
 from src.index import ProductsIndex, Sentiment
 from src.searchengine import ProductSearcher
-
+from src.CollectDocument import create_path
 
 def switcher(sentiment) -> Sentiment:  # |[-1,1]|=2/5: 0.4
     """
@@ -80,12 +80,16 @@ layoutRicerca = [[sg.Image(filename=("sm4.png"))],
 
 window = sg.Window("Search window", layoutRicerca, element_justification='l', size=(840, 580))
 
-print(os.path.realpath(__file__))
-index = ProductsIndex("C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\indexdir")
+
+
+index = ProductsIndex("indexdir")
+"""
 if not index.exists():
     index.create()
+"""
 indexView = index.open()
-docsDatabase = DocsDatabase("C:\\Users\\feder\\PycharmProjects\\IndexRetrivalProject\\src\\DOc")
+n,dest = create_path()
+docsDatabase = DocsDatabase(dest)
 searcher: ProductSearcher = ProductSearcher(docsDatabase=docsDatabase, indexView=indexView)
 
 while True:
@@ -101,15 +105,14 @@ while True:
         for term in query_type:
             if term == "&":
                 and_type = 1
-
+        print("cerco")
         results = searcher.retrieve(query=query, sentiment=switcher(sentiment))
-
-        # rimuovo i duplicati
-        remouve_doppi(results) # TODO serve ancora?
+        print("finito di cercare")
         i = 1
         for i in range(0, 10):
             if i < len(results):
                 aggiorna_campo(i, results[i])
+                print(results[i])
             else:
                 hideField(i)
             window.refresh()  # refresh required here

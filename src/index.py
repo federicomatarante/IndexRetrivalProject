@@ -95,7 +95,6 @@ class ProductsIndexView:
                                 sentiment=review.sentiment,
                                 document=review.document,
                                 testo_processato=self.textPreprocessor.process(review.text))
-
         writer.commit()
 
     def delete(self, reviews: Union[Review, Iterable[Review]]):
