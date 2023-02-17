@@ -81,7 +81,6 @@ def collect_document():
             # Per ogni riga letta creo un file testuale
             for riga in reader:
                 half_name = replace(str(riga[0]))
-                half_name = delete_space(half_name)
                 nome_prodotto = str(riga[1]+" "+half_name)
                 print(nome_prodotto)
                 recensione = riga[4]
