@@ -1,0 +1,26 @@
+Motorola Motorola Moto E (1st Generation) - Black - 4 GB - Global GSM Unlocked Phone
+5
+https://www.amazon.it/s?k=Motorola+Motorola+Moto+E
+0.8582487106323242
+I got this phone when it was cheaper than it is now ($86) and let 
+me tell you, this is one f the best value for money items I've ever 
+seen. I was going to buy it just to experiment with roms and other nerdy, 
+androidy stuff. But after using it? I think this could be used as a daily 
+item. The FM radio feature is pretty cool. Audio quality isn't bad at all, and 
+the speaker's front facing position makes it better. The screen's ppi isn't very big, but 
+images and UI elements are quite smooth. peaking of which, the whole user experience is 
+smooth. Probably thanks to the gpu not having to manage upwards of 3 million pixels 
+like my note 4, probably due to the 1.2 ghz dual core (not beefy, but 
+powerful enough), and partly due to the fact that this phone uses the stock (well, 
+pretty much) UI. Durability? Well, I'd prefer not to drop it, but I think it'll 
+survive some small fumbles. The device feels pretty solid in hand. The only downer is 
+the camera. At 5 mp, it's a good sensor, but with no flash or autofocus, 
+this phone isn't a good choice for a night-owl or anyone who likes to take 
+close-ups with superb detail. And while some might not like the weight (it's not particularily 
+light), I find it nice, as it adds a premium feel to it. I will 
+update this review (maybe) once I root the device and run some benchmarks, and find 
+what day to day usage is like.(Update): Well, I ended up returning it after a 
+couple of days because I got a bootloader-locked version. Ended up buying an identical version, 
+but right from Motorola. It's rooted, and while it wasn't super easy, it was worth 
+it. I've got it running a light weight version of the stock rom, with little 
+build tweaks. 

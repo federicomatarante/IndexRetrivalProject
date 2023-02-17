@@ -3,15 +3,15 @@ import shutil
 from enum import Enum
 from typing import Optional, Iterable, Union
 
-from whoosh import qparser
+from whoosh import qparser, scoring
 from whoosh.fields import Schema, ID, TEXT, NUMERIC
 from whoosh.index import create_in, open_dir, exists_in, Index
 from whoosh.qparser import MultifieldParser
-from whoosh.query import NumericRange, And
+from whoosh.scoring import WeightingModel
 from whoosh.writing import AsyncWriter
 
-from apii import Review
-from textpreprocessing import TextPreprocessor, FullPreprocessor
+from src.apii import Review
+from src.textpreprocessing import TextPreprocessor, FullPreprocessor
 
 
 class Sentiment(Enum):
@@ -54,13 +54,14 @@ class ProductsIndexView:
         self._index = index
         self.textPreprocessor = textPreprocessor
 
-    def query(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> \
-            list[str]:
+    def query(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True,
+              weightingModel: WeightingModel = scoring.BM25F) -> list[str]:
         """
         :type query: str. The query in natural language to convert into the index for Reviews.
         :type sentiment: Sentiment. The sentiment of the reviews to be searched.
         :type limit: int. The maximum number of reviews to be returned.
         :type orSearch: bool. If the query is an OR search or an AND search.
+        :type weightingModel: WeightingModel. The weighting model to be used.
         :rtype: a list of product's ids in decreasing order of score.
         """
         if orSearch:
@@ -68,18 +69,24 @@ class ProductsIndexView:
         else:
             type_parser = qparser.AndGroup
 
-        with self._index.searcher() as searcher:
+        with self._index.searcher(weighting=weightingModel) as searcher:
             # Creo la query
             parser = MultifieldParser(["nome_prodotto", "testo_processato"], schema=self._index.schema,
                                       group=type_parser, fieldboosts={"nome_prodotto": 2, "testo_processato": 1})
             query = parser.parse(query)
 
             min_sentiment, max_sentiment = _getSentimentInterval(sentiment)
+            """
+            Commentato in attesa di una risposta della prof
             sentiment_filter = NumericRange("sentiment", min_sentiment, max_sentiment)
             query = And([query, sentiment_filter])  # TODO non va, non è preciso il filtro
+            """
+
             # Cerco la query
             results = searcher.search(query, limit=limit)
-            documents = [(result["document"]) for result in results]
+            documents = [(result["document"]) for result in results
+                         if min_sentiment <= result["sentiment"] <= max_sentiment]
+            # Filtro momentaneo in attesa della risposta del prof
         return documents
 
     def add(self, reviews: Union[Review, Iterable[Review]]):
@@ -119,7 +126,7 @@ class ProductsIndex:
         :param indexDirectoryPath: The path of the directory where the index will be stored.
         """
         self._indexDirectoryPath = indexDirectoryPath
-        self._schema = Schema(nome_prodotto=TEXT,  # nome del prodotto
+        self._schema = Schema(nome_prodotto=TEXT(stored=True),  # nome del prodotto
                               sentiment=NUMERIC(stored=True),  # sentimento estratto dalla recensione
                               document=ID(stored=True),  # nome del documento contenente la recensione
                               testo_processato=TEXT(stored=True))  # testo della recensione pre-processato

@@ -15,7 +15,6 @@ def switcher(sentiment) -> Sentiment:  # |[-1,1]|=2/5: 0.4
     :param sentiment: stringa contenente il sentimento
     :return: tupla (a,b); l'intervallo del sentiment rispettivo.
     """
-    print(sentiment)
     if sentiment == "very bad":  # [-1,-0.6]
         return Sentiment.VERY_NEGATIVE
     if sentiment == "bad":  # [-0.6,-0.2]

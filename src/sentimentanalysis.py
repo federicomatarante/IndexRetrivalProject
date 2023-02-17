@@ -43,6 +43,7 @@ class ReviewsHuggingFaceAnalyzer(SentimentAnalyzer):
             raise TypeError(sentiment)
 
 
+
 class AmazonHuggingFaceAnalyzer(SentimentAnalyzer):
     """
     This uses the HuggingFace pipeline to analyze the sentiment of a phrase.
@@ -65,6 +66,8 @@ class AmazonHuggingFaceAnalyzer(SentimentAnalyzer):
         phrase = phrase[0:510]
 
         sentiment = self._sentiment_model(phrase)[0]
+        print(sentiment)
+
         if sentiment['label'] == '1 star':  # Between -1 and -0.6
             return -1 + sentiment["score"] * 0.4
         elif sentiment["label"] == '2 stars':  # Between -0.6 and -0.2

@@ -1,9 +1,7 @@
 import os
-import re
 from typing import List, Union, Iterable, Optional
 
-from apii import Review
-from sentimentanalysis import SentimentAnalyzer, ReviewsHuggingFaceAnalyzer
+from src.apii import Review
 
 
 class DocumentManager:

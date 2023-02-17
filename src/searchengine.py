@@ -1,3 +1,6 @@
+from whoosh import scoring
+from whoosh.scoring import WeightingModel
+
 from index import ProductsIndexView, Sentiment
 from apii import Review
 
@@ -16,16 +19,18 @@ class ProductSearcher:
         self._docsDatabase = docsDatabase
         self._indexView = indexView
 
-    def retrieve(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True) -> \
+    def retrieve(self, query: str, sentiment: Sentiment = Sentiment.ALL, limit: int = 50, orSearch: bool = True,
+                 weightingModel: WeightingModel = scoring.BM25F) -> \
             list[Review]:
         """
         :param query: the query to search.
         :param sentiment: the sentiment of the reviews to search.
         :param limit: the maximum number of reviews to retrieve.
         :param orSearch: if true, the query is searched as an OR query, otherwise as an AND query.
+        :param weightingModel: the weighting model to use.
         :return: the list of reviews that match the query.
         """
-        results: list[str] = self._indexView.query(query, sentiment, limit, orSearch)
+        results: list[str] = self._indexView.query(query, sentiment, limit, orSearch, weightingModel)
         return self._docsDatabase.getDocs(results)
 
 

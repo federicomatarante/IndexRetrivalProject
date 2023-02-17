@@ -1,0 +1,46 @@
+BLU BLU Studio 5.0 HD Unlocked Cellphone, White
+2
+https://www.amazon.it/s?k=BLU+BLU+Studio+5.0+HD+Unlocked+Cellphone,+Whit
+-0.9904671311378479
+I really wanted to love this phone, but unfortunately I ended up having to return 
+it.I have been a T-Mobile customer for 2 years. I previously had a Samsung Galaxy 
+S2, which I also used as a home hotspot and never had a problem getting 
+a 4G signal at my house. Right off the bat, except in brief moments, this 
+phone stayed on the 2G/Edge network constantly. I contacted T-Mobile support, and they said a) 
+this is not a T-Mobile supported device and b) the specs of the phone show 
+that its 4G LTE frequencies are 1700/2600, and T-Mobile uses 1700/2100. You have to have 
+both frequencies working for the upload and download. Here is the official T-Mobile document explaining 
+that: https://support.t-mobile.com/docs/DOC-4988I had seen some mention of T-Mobile updating some of their network and being 
+able to get 3G/HSPA+ on the 1900 frequency, but that depends on your area. When 
+I asked support why the phone wasn't accessing that, they had no answer. They just 
+said that a non-supported device is never going to show anything other than Edge. So 
+be aware that if you end up having network issues, you might have problems getting 
+any help from T-Mobile.Other notes:It functioned a lot like my Samsung Galaxy S2, which was 
+OK for me but might not be OK for people who need something faster. I 
+did love the display quality, and I thought the speakers were pretty loud. I noticed 
+that the speaker made a popping noise when I got notifications and I didn't even 
+have the volume up all the way.The built in FM radio was pretty sweet - 
+sounded great on headphones.I did NOT like the Android KitKat platform. I realize this is 
+not uniquely a BLU phone issue (it would be the same with any phone running 
+KitKat), but it was aggravating to not be able to have my Gmail and Google 
+Hangouts messages syncing properly over my Wifi connection at home. I was getting notifications HOURS 
+late. Apparently this is just a KitKat bug that is hard to fix (I never 
+did find a solution that worked). I didn't see any official announcements of an update 
+for this phone. BLU will be updating some other models later in the year, but 
+I didn't see any mention of this model. I think there are some folks out 
+there who have figured out how to root the phone to install Lollipop, but I 
+didn't bother.I also didn't like the quality of the camera. The S2 had an 8MP 
+camera and I thought the 13MP would be a major improvement, but the pictures were 
+really grainy. The front facing camera was also weird - it seemed to make everything 
+elongated and distorted.I noticed several reviews talking about how flimsy the back is and how 
+it could be easily broken. In all fairness, it was pretty much the same as 
+the Galaxy S2 and some other Samsung phones I have seen, but that is indeed 
+pretty thin and you do have to be careful with the snaps. The case that 
+came with the phone was a nice extra, but it was by no means something 
+that would offer a lot of protection if the phone were dropped.Like many other customers, 
+I also had GPS issues. Google Maps showed my location as being about 4 miles 
+from my actual location every time I tried to use it.Overall, I was very disappointed. 
+I didn't expect this phone to function like a new $600 phone, but none of 
+the main selling points (4G LTE, 13MP camera, KitKat OS) worked properly. I had no 
+choice but to return it so I could get a phone that actually makes use 
+of my calling plan. 

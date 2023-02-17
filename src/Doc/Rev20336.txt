@@ -1,0 +1,14 @@
+ LG G3 D855 Unlocked Cellphone, International Version, 32GB, Black
+1
+https://www.amazon.it/s?k=+LG+G3+D855+Unlocked+Cellphone,+International+Version,+32GB,+Blac
+-0.9981081485748291
+I got 3 such devices. somehow they all came pre-rooted with isr firmware (bought from 
+US and sent to US). all 3 are kitkat but fail upgrading via LG suite. 
+Not all 3 have the same revision of the firmware.2 of the devices lose the 
+touch and force me to open them, remove and re-insert the battery once a day 
+to reactivate the touch.The third device is ok regarding its screen but cannot connect to 
+a PC.I ldon't live in the US so sending them back to the seller is 
+impossible. I asked them about the pre-rooted firmware to which they replied that they don't 
+know what rooting is.One bad phone is something that happens, but 3 bad phones in 
+one short domestic shipment is a huge red flag.I suspect these are all refurbished or 
+worse but sold as new . beware. 

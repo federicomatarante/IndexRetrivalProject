@@ -1,0 +1,24 @@
+HTC HTC Nexus One Unlocked GSM Smartphone with Android OS, 5MP Camera and Touchscreen - No Warranty - Brown
+2
+https://www.amazon.it/s?k=HTC+HTC+Nexus+One+Unlocked+GSM+Smartphone+with+Android+OS,+5MP+Camera+and+Touchscreen+-+No+Warranty+-+Brow
+-0.9995021820068359
+I bought this phone knowing that it did not have a warranty, but still expected 
+it to at least boot up first time. Shock on me. The 'X' boot up 
+logo appeared and that was it. Removed the battery and tried it again. This time, 
+with the 'X' boot up logo appearing and disappearing like it was in a reboot 
+loop.I unfortunately cannot return the phone (bought by a friend in the US and shipped 
+outside) and the costs and trouble involved in returning it would probably buy my wife 
+another phone (initially was for my wife).I have previously bought an HTC Desire via Amazon 
+(wasn't even new) and that is still running smoothly (albeit with a custom ROM - 
+CM7.1) so I have some experience flashing ROMs etc. I just thought I'd see how 
+the stock ROM would work since the phone is for my wife.After several hours I 
+finally managed to get HTC image ver 2.3.3 for the nexus one ( from the 
+HTC Dev website) which somehow worked after some times. Then the OTA updates started coming 
+in. I opted to manually do the updates initially but for 2.3.6 tried to do 
+it OTA, which resulted in the reboots starting again. Reflashed 2.3.3 and then this time 
+did 2.3.4 and 2.3.6 manually. A few hours later, tried using latitude and phone reboots 
+(!!), then another time added a power control widget to the screen and it boots 
+again, with the reboot loop! by this time I had discovered that removing the battery 
+for some time will allow the phone to boot properly.So 3 stars off for the 
+whole experience, but 1.5 stars since I bought the phone without warranty and the 0.5 
+star is because I try to be positiven... 

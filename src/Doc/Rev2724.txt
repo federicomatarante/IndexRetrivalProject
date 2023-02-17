@@ -1,0 +1,38 @@
+BLU BLU Studio C Super Camera -Unlocked Smartphone - US GSM- Pink
+2
+https://www.amazon.it/s?k=BLU+BLU+Studio+C+Super+Camera+-Unlocked+Smartphone+-+US+GSM-+Pin
+-0.706782877445221
+Not sure is this apply just to Puerto Rico, be a phone's issue or just 
+my particular situation but I'll write about it as it might be helpful to someone 
+else. Purchased it for its many advertised functions and price to replace an Iphone 4 
+using NET10 prepaid services for which every service was working fine except not able to 
+update IOS. Almost always had a 4G next to the antenna symbol on phone's display. 
+Inserted the Iphone 4 sim card into my Blu Studio, program APN, able to call, 
+connect to the Internet, send and receive mms messages, receive text messages from anyone but 
+able to SEND text messages to about 4 people out of my 200+ contacts. Tried 
+about 30 different APN's combinations looking to solve the problem, visited twice a cell phone 
+store for help even purchased a new sim card just in case but nothing worked. 
+NET10 tech support super text message diagnosis test was to send a text message to 
+myself and because I was able to received, for them their system "was not the 
+problem". Used without sending text messages for quite a while. Switched to Claro Puerto Rico 
+prepaid mobile service by also purchasing ANOTHER new sim card. Now I'm able to call, 
+use 3G Internet, (4G symbol never shows) send and receive text messages from and to 
+anyone BUT now cannot send nor receive mms messages. Call Claro's tech support (excellent service) 
+we went thru APN settings and according to them my phone IS NOT 4G (Why 
+then a 4G indication with NET10 plan?) and was recommended to purchase a 3G sim 
+card and prepaid plan. I started searching on Internet on how to find out if 
+my phone is or isn't 4G capable and found this webpage http://www.willmyphonework.net/ with a web 
+application which after entering my phone specs the results were as follows:Blu Studio C Super 
+Camera D870U - Puerto RicoAT&TResult 850MHz, 1900MHzResult 850MHz, 1900MHzResult Device does not support 4G LTE 
+bandsCarrier Frequencies ClaroResult 850MHz, 1900MHzResult 850MHz, 1900MHzResult Device does not support 4G LTE bandsCarrier Frequencies 
+OpenResult Device not compatibleResult Device not compatibleResult Device does not support 4G LTE bandsCarrier Frequencies 
+SprintResult Device not compatibleResult Device not compatibleResult Device does not support 4G LTE bandsCarrier Frequencies 
+T-MobileResult 1900MHzResult 1900MHzResult Device does not support 4G LTE bandsEnd results: frustration, still not able 
+to enjoy using my new phone "capabilities" and still in need to purchase another sim 
+card for 3G + a 3G prepaid plan. Product purchased on October 15, 2015 reviewed 
+in January 20, 2016My experience does not necessarily has to be your experience but I 
+hope might somehow help someone else.A happy customer, always very satisfied with Amazon's services and 
+prices. Thank you for your continuous efforts in costumer's satisfaction.Hope BLU could improve such a 
+pretty product IF this might be related to design functioning. Would like to go back 
+to Iphone but not affordable at this time. Not really a fan of android for 
+its privacy concerns.Thanks for your time to read such a long review.Rafael 

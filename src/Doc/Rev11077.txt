@@ -1,0 +1,14 @@
+LG LG 2X P999 8GB Unlocked GSM Phone with Android 2.3 OS, HDMI, Nvidia Tegra 2 Dual Core processor, 8MP Camera, IPS LCD Touchscreen, GPS, Wi-Fi, Bluetooth, FM Radio and microSD Slot - Brown
+4
+https://www.amazon.it/s?k=LG+LG+2X+P999+8GB+Unlocked+GSM+Phone+with+Android+2.3+OS,+HDMI,+Nvidia+Tegra+2+Dual+Core+processor,+8MP+Camera,+IPS+LCD+Touchscreen,+GPS,+Wi-Fi,+Bluetooth,+FM+Radio+and+microSD+Slot+-+Brow
+-0.8774642944335938
+Excellent phone for the price. There are a few caveats.1. The branded T-Mobile version of 
+this phone doesn't work at all even if unlocked. The rom will reset the APN 
+back to the default T-Mobile APN as soon as you exit and save it. It's 
+a firmware issue.I use mine on NET10 and you have to select T-Mobile as the 
+carrier to get 4G. You also have to set up a custom APN per NET10 
+instructions. I'm sure similar steps will be necessary for other carriers.2. If you intend to 
+websurf, play hi-def 3D games, stream movies, or shoot videos you will definitely need to 
+purchase additional batteries. I use an EZO 3500 w/cover and can play about 8-10 hrs.3. 
+Load the LG support tool on your PC and update the product.Awesome phone for the 
+price. Don't drop it ;-) 

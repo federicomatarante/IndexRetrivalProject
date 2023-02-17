@@ -1,0 +1,63 @@
+Motorola Moto G Plus (4th Gen.) Unlocked - White - 64GB - U.S. Warranty
+4
+https://www.amazon.it/s?k=Motorola+Moto+G+Plus
+0.612099289894104
+I went back and forth in my decision to buy this slightly more expensive version, 
+or go with the regular Moto G. This won out, since the spec's were better 
+(more RAM, memory, better mp camera, fingerprint sensor). I chose the $50 gift card bundle, 
+and after checkout the phone itself totaled $249 (+ tax which was about $13). The 
+gift card arrived the next day, allowing me to buy accessories for my phone!First of 
+all, I've been a long time Tracfone user, and have only used TF certified phones 
+in the past.Since TF now has a BYOP (Bring Your Own Phone) plan, it made 
+more sense to buy an unlocked phone with up-to-date technology (and no restriction on updating 
+Android).Setup was relatively easy. I purchased the BYOP SIM kit from Walmart, and used the 
+CDMA 4G network card (the mini sim). I decided not to port my old TF 
+phone number, so setup (via my account on Tracfone) was lightning fast. Within a couple 
+of minutes, my phone number, and minutes were ported to my phone. (I'm happy to 
+say that the regular Tracfone minutes cards WILL triple. However, I don't believe the "Smartphone" 
+designated cards will.) My phone screen shows that I'm on the Verizon 4G network. In 
+order to access my minutes/text/data balance, I had to d/l the Tracfone app. for that 
+(through Google Play).For whatever reason I was unable to get a proper wireless signal from 
+my current router (I've never used the wireless, only the wired Ethernet portion, so I'm 
+not exactly sure sure if it's just a problem with my router configuration or what. 
+I may have to contact my provider about it.)As a work around I purchased the 
+"Plugable USB OTG Micro-B Ethernet Adaptor" (via Amazon). It came today, and it immediately worked 
+upon connection.The only odd thing was after downloading 2 Google Play App's, the app's themselves 
+needed further downloading upon opening (basically they're shell programs, with customizable options upon startup), and 
+it didn't recognize that I had internet due to my data and wireless being turned 
+off, so I guess I will have to finish upgrading the app. when I get 
+to a wireless signal, or buy more data minutes).The camera is a huge plus for 
+me, as my regular Canon digital has the same mp as this internal camera (16). 
+I've already taken a bunch of pictures with it, and I can say that it's 
+slightly better than my Canon in some respects.We had a storm yesterday, and I was 
+able to capture a lightning strike! The video also looks good. My favorite thing so 
+far is the "Panorama", something my Canon doesn't have.As my previous phone camera's haven't had 
+half as good of resolution, or the additional features, I can definitely say this is 
+the best cellphone camera I've ever had!I'm hard of hearing in both ears, but the 
+volume sounds very adequate for the ringtones, the radio, and a downloaded video. I haven't 
+actually made a call yet, so I can't comment on that yet.The screen resolution is 
+beautiful, and crisp! I have d/l'd additional wallpapers because the provided ones were few.In order 
+to connect the phone as a recognizable media device to your computer, you MUST go 
+to the top, and pull down the tab, and change it from "charging" to what 
+you want to use it for. Otherwise just plugging it in via usb to your 
+computer will NOT automatically show your files. It took me a while to figure this 
+out, but I found the answer on an online forum, and thought I'd pass on 
+this important info!After doing this I was able to transfer the "wallpaper", and additional ringtones 
+to my phone.FYI, for ringtones, you must add the mp3 file directly to your ringtones 
+folder, otherwise there's no option on the file itself to make it a ringtone.For now, 
+this is all I can think of. So far I'm very pleased with this phone! 
+And recommend it to Tracfone users looking for a compatible unlocked phone!_______As of Aug 8, 
+2016 I decided to drop my phone down a star because I just learned I 
+have 3 security vulnerabilities on my phone.After reading this article: bbc.com/news/technology-37005226 And downloading the app 
+"QuadRooter" on GooglePlay checkpoint.com/resources/quadrooter-vulnerability-consumer/ (despite my phone not being one of those listed), it showed 
+that I had the following vulnerablities:CVE-2016-2504CVE-2016-2503CVE-2016-5340For security purposes I had already d/l'd an Antivirus, and 
+Firewall.The fact that the vulnerabilities were discovered between "Feb. and April", long before the phone 
+was launched in July, makes me wonder why Motorola/Lenovo went ahead and use a defective 
+chip? At the very least install the patches for these vulnerabilities?The article states: "In response, 
+Qualcomm is believed to have created patches for the bugs and started to use the 
+fixed versions in its factories. It has also distributed the patches to phone makers and 
+operators. However, it is not clear how many of those companies have issued updates to 
+customers' phones."I have since checked the forums, and while it appears they are aware of 
+the problem, no patches have been released by them! How long is it going to 
+take for them to release the patch that they've already supposedly been given by Qualcomm?!If 
+you want to browse the forums go here: forums.lenovo.com/t5/Moto-G4-Moto-G4-Plus/bd-p/MotoG4thGen 
