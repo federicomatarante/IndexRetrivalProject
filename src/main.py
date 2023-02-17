@@ -100,29 +100,28 @@ while True:
     if event == "Search":
         query = values[1]
         sentiment = values[2]
-        and_type = 0
-        query_type = query.split()
-        for term in query_type:
-            if term == "&":
-                and_type = 1f
-
-        results = searcher.retrieve(query=query, sentiment=switcher(sentiment))
-        if sentiment ==Sentiment.VERY_POSITIVE or sentiment == Sentiment.POSITIVE or sentiment == Sentiment.ALL:
-            results.sort(key= lambda x : x.sentiment)
+        if query.startsWith("&"):
+            orSearch = False
+            query = query.lstrip("&")
         else:
-            results.sort(key = lambda x : x.sentiment)
-            lista2 = []
-            i = len(results)
-            while i > 0:
-                lista2.append(results[i-1])
-                i = i-1
-            results = lista2
-        i = 1
-        for i in range(0, 30):
-            if i < len(results):
-                aggiorna_campo(i, results[i])
-                print(results[i])
-            else:
-                hideField(i)
-            window.refresh()  # refresh required here
-            window['-COLUMN-'].contents_changed()
+            orSearch = True
+        results = searcher.retrieve(query=query, sentiment=switcher(sentiment), orSearch=orSearch)
+        if sentiment == Sentiment.VERY_POSITIVE or sentiment == Sentiment.POSITIVE or sentiment == Sentiment.ALL:
+            results.sort(key=lambda x: x.sentiment)
+        else:
+            results.sort(key=lambda x: x.sentiment)
+        lista2 = []
+        i = len(results)
+        while i > 0:
+            lista2.append(results[i - 1])
+            i = i - 1
+        results = lista2
+    i = 1
+    for i in range(0, 30):
+        if i < len(results):
+            aggiorna_campo(i, results[i])
+            print(results[i])
+        else:
+            hideField(i)
+        window.refresh()  # refresh required here
+        window['-COLUMN-'].contents_changed()
