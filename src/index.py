@@ -125,7 +125,7 @@ class ProductsIndex:
         self._schema = Schema(nome_prodotto=TEXT(stored=True),  # nome del prodotto
                               sentiment=NUMERIC(stored=True),  # sentimento estratto dalla recensione
                               document=ID(stored=True),  # nome del documento contenente la recensione
-                              testo_processato=TEXT)  # testo della recensione pre-processato
+                              testo_processato=TEXT(stored=True))  # testo della recensione pre-processato
 
     def create(self) -> ProductsIndexView:
 

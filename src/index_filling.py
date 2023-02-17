@@ -1,5 +1,6 @@
 from src.docsmanager import DocsDatabase
 from src.index import ProductsIndex
+from src.CollectDocument import create_path
 
 
 def createIndex(index: ProductsIndex, directory: str):
@@ -22,7 +23,9 @@ def createIndex(index: ProductsIndex, directory: str):
 
 
 def run():
-    createIndex(ProductsIndex("indexdir"), 'Docs')
+    n,Doc = create_path()
+    print(Doc)
+    createIndex(ProductsIndex("indexdir"), Doc)
 
 
 """
