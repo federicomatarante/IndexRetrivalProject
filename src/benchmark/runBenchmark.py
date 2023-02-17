@@ -1,11 +1,11 @@
-from src.benchmark.benchmark import Benchmark, BenchmarkQuery
-from src.index import ProductsIndexView
-
+from IndexRetrivalProject.src.benchmark.benchmark import BenchmarkQuery, Benchmark
+from IndexRetrivalProject.src.index import ProductsIndexView
 
 def getQueries() -> list[BenchmarkQuery]:
     # Questo sotto è solo un esempio, non è il vero benchmark
     return [
-        BenchmarkQuery("What is the best laptop?", {"Rev1": 2, "Rev2": 1, "Rev3": 0}),
+        BenchmarkQuery("iphone ", {"Rev5241": 3, "Rev2": 1, "Rev3": 0}),
+        BenchmarkQuery("iphone 5",{"rev1": 3})
     ]
 
     pass  # TODO return a set of BenchmarkQueries

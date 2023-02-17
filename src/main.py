@@ -47,8 +47,8 @@ def aggiorna_campo(i, risultato):
     window['-FIELD' + str(i) + '-'].update("")
     window['-FIELD' + str(i) + '-'].print(
         str(i + 1) + "  " + risultato.product + "," + str(risultato.stars) + " " + risultato.document,
-        background_color='#475841', text_color='white')
-    window['-FIELD' + str(i) + '-'].print(str(risultato.sentiment) + risultato.text + "...")
+        background_color='#4974a5', text_color='white')
+    window['-FIELD' + str(i) + '-'].print(risultato.text )
 
 
 def hideField(i):
@@ -100,28 +100,25 @@ while True:
     if event == "Search":
         query = values[1]
         sentiment = values[2]
-        if query.startsWith("&"):
-            orSearch = False
-            query = query.lstrip("&")
+        and_type = 0
+        query_type = query.split()
+        for term in query_type:
+            if term == "&":
+                and_type = 1
+
+        results = searcher.retrieve(query=query, sentiment=switcher(sentiment))
+        print(sentiment)
+        if sentiment == "very positive" or sentiment == "positive" or sentiment == "all" or sentiment=="neuter":
+            results.sort(key= lambda x : x.sentiment,reverse=True)
         else:
-            orSearch = True
-        results = searcher.retrieve(query=query, sentiment=switcher(sentiment), orSearch=orSearch)
-        if sentiment == Sentiment.VERY_POSITIVE or sentiment == Sentiment.POSITIVE or sentiment == Sentiment.ALL:
-            results.sort(key=lambda x: x.sentiment)
-        else:
-            results.sort(key=lambda x: x.sentiment)
-        lista2 = []
-        i = len(results)
-        while i > 0:
-            lista2.append(results[i - 1])
-            i = i - 1
-        results = lista2
-    i = 1
-    for i in range(0, 30):
-        if i < len(results):
-            aggiorna_campo(i, results[i])
-            print(results[i])
-        else:
-            hideField(i)
-        window.refresh()  # refresh required here
-        window['-COLUMN-'].contents_changed()
+            print("sono nell'esle")
+            results.sort(key = lambda x : x.sentiment)
+        i = 1
+        for i in range(0, 30):
+            if i < len(results):
+                aggiorna_campo(i, results[i])
+                print(results[i])
+            else:
+                hideField(i)
+            window.refresh()  # refresh required here
+            window['-COLUMN-'].contents_changed()
