@@ -72,11 +72,12 @@ resCol = [fieldCol(i) for i in range(0, 30)]
 
 layoutRicerca = [[sg.Image(filename=("sm4.png"))],
                  [sg.Text("                  Search smartphone reviews", font=(2, 25))],
-                 [sg.InputText(size=(65, 2), font=16)],
+                 [sg.InputText(size=(70, 2), font=16)],
                  [sg.Text("                   Review opinion", font=22),
                   sg.OptionMenu(("all", "very bad", "bad", "neuter", "positive", "very positive"),
                                 default_value='all', size=(12, 3))],
-                 [sg.Text("                                                     "), sg.Button("Search", font=16)],
+                 [sg.Text("                                                                  "), sg.Button("Search", font=16)],
+                 [sg.Image(filename=("img.png"))],
                  [sg.Text("", key='-OutputStart-', size=(100, 1))],
                  [sg.Column(resCol, size=(690, 330), scrollable=True, key='-COLUMN-', vertical_scroll_only=True)]]
 
