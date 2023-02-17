@@ -35,7 +35,7 @@ class DocumentManager:
             return False
         if len([line for line in lines[4:] if line == "" or line == '\n']) == len(lines[3:]):
             return False
-        if not lines[1].rstrip().isdigit() or not lines[3].rstrip().isdigit():
+        if not lines[1].rstrip().isdigit() or not lines[3].rstrip().replace('.', "").replace("-", "").isnumeric():
             return False
         return True
 

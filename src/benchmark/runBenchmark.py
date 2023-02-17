@@ -3,15 +3,20 @@ from src.index import ProductsIndexView
 
 
 def getQueries() -> list[BenchmarkQuery]:
+    # Questo sotto è solo un esempio, non è il vero benchmark
+    return [
+        BenchmarkQuery("What is the best laptop?", {"Rev1": 2, "Rev2": 1, "Rev3": 0}),
+    ]
+
     pass  # TODO return a set of BenchmarkQueries
 
 
-def getProductsIndex() -> ProductsIndexView:
+def getProductsIndexView() -> ProductsIndexView:
     pass  # TODO implement a function that returns the view of the validated index
 
 
 def run():
-    benchmark = Benchmark(getQueries(), getProductsIndex())
+    benchmark = Benchmark(getQueries(), getProductsIndexView())
     print("Running benchmark...")
     benchmark_results = benchmark.run()
     print("Single queries performance:")

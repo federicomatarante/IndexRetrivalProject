@@ -6,6 +6,7 @@ from src.index import ProductsIndex, Sentiment
 from src.searchengine import ProductSearcher
 from src.CollectDocument import create_path
 
+
 def switcher(sentiment) -> Sentiment:  # |[-1,1]|=2/5: 0.4
     """
     Metodo per passare da una stringa acquisita dalla gui ad un intervallo
@@ -72,7 +73,8 @@ layoutRicerca = [[sg.Image(filename=("sm4.png"))],
                  [sg.Text("                  Search smartphone reviews", font=(2, 25))],
                  [sg.InputText(size=(65, 2), font=16)],
                  [sg.Text("                   Review opinion", font=22),
-                  sg.OptionMenu(("all", "very bad", "negative", "neuter", "positive", "very positive"), size=(12, 3))],
+                  sg.OptionMenu(("all", "very bad", "negative", "neuter", "positive", "very positive"),
+                                default_value='all', size=(12, 3))],
                  [sg.Text("                                                     "), sg.Button("Search", font=16),
                   sg.Button("Cancel", font=16)],
                  [sg.Text("", key='-OutputStart-', size=(100, 1))],
@@ -80,15 +82,13 @@ layoutRicerca = [[sg.Image(filename=("sm4.png"))],
 
 window = sg.Window("Search window", layoutRicerca, element_justification='l', size=(840, 580))
 
-
-
 index = ProductsIndex("indexdir")
 """
 if not index.exists():
     index.create()
 """
 indexView = index.open()
-n,dest = create_path()
+n, dest = create_path()
 docsDatabase = DocsDatabase(dest)
 searcher: ProductSearcher = ProductSearcher(docsDatabase=docsDatabase, indexView=indexView)
 

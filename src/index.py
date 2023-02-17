@@ -71,13 +71,12 @@ class ProductsIndexView:
         with self._index.searcher() as searcher:
             # Creo la query
             parser = MultifieldParser(["nome_prodotto", "testo_processato"], schema=self._index.schema,
-                                      group=type_parser)
-            # TODO valuta se mettere dei boost
+                                      group=type_parser, fieldboosts={"nome_prodotto": 2, "testo_processato": 1})
             query = parser.parse(query)
 
             min_sentiment, max_sentiment = _getSentimentInterval(sentiment)
             sentiment_filter = NumericRange("sentiment", min_sentiment, max_sentiment)
-            query = And([query, sentiment_filter])
+            query = And([query, sentiment_filter])  # TODO non va, non è preciso il filtro
             # Cerco la query
             results = searcher.search(query, limit=limit)
             documents = [(result["document"]) for result in results]
@@ -120,8 +119,7 @@ class ProductsIndex:
         :param indexDirectoryPath: The path of the directory where the index will be stored.
         """
         self._indexDirectoryPath = indexDirectoryPath
-        # TODO valuta se none_prodotto può essere ID
-        self._schema = Schema(nome_prodotto=TEXT(stored=True),  # nome del prodotto
+        self._schema = Schema(nome_prodotto=TEXT,  # nome del prodotto
                               sentiment=NUMERIC(stored=True),  # sentimento estratto dalla recensione
                               document=ID(stored=True),  # nome del documento contenente la recensione
                               testo_processato=TEXT(stored=True))  # testo della recensione pre-processato

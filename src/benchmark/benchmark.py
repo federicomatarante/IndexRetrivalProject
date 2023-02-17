@@ -15,7 +15,7 @@ class BenchmarkQuery:
         :param results: A dictionary of the expected results. The key is the document and the value is the importance.
         """
         self.query = query
-        self.expectedReults = results  # {DocumentID: importance of the result}
+        self.expectedResults = results  # {DocumentID: importance of the result}
 
 
 class BenchmarkResult:
@@ -55,14 +55,14 @@ class BenchmarkResult:
         dcg = 0
         i = 1
         results = self.results
-        results.sort(key=lambda x: self.query.expectedReults[x], reverse=True)
+        results.sort(key=lambda x: self.query.expectedResults[x], reverse=True)
 
         for result in results:
-            if result in self.query.expectedReults.keys:
+            if result in self.query.expectedResults.keys:
                 if i == 1:
-                    dcg += self.query.expectedReults[result]
+                    dcg += self.query.expectedResults[result]
                 else:
-                    dcg += self.query.expectedReults[result] / log2(i)
+                    dcg += self.query.expectedResults[result] / log2(i)
                 i += 1
 
         return dcg
@@ -79,11 +79,11 @@ class BenchmarkResult:
         for result in self.results:
             if i == n:
                 break
-            if result in self.query.expectedReults.keys:
+            if result in self.query.expectedResults.keys:
                 if i == 1:
-                    dcg += self.query.expectedReults[result]
+                    dcg += self.query.expectedResults[result]
                 else:
-                    dcg += self.query.expectedReults[result] / log2(i)
+                    dcg += self.query.expectedResults[result] / log2(i)
                 i += 1
 
         return dcg
@@ -93,7 +93,7 @@ class BenchmarkResult:
         """
         :return: The valid results of the query.
         """
-        return [result for result in self.results if result in self.query.expectedReults.keys]
+        return [result for result in self.results if result in self.query.expectedResults.keys]
 
     @property
     def precision(self) -> float:
@@ -107,7 +107,7 @@ class BenchmarkResult:
         """
         :return: The recall of the query.
         """
-        return len(self.validResults) / len(self.query.expectedReults)
+        return len(self.validResults) / len(self.query.expectedResults)
 
     def getPrecisionAtRecallLevel(self, recall_level: float, interpolated: bool = False) -> float:
         """
@@ -138,10 +138,10 @@ class BenchmarkResult:
         """
         valid_results = 0
         for result in self.results:
-            recall = valid_results / len(self.query.expectedReults)
+            recall = valid_results / len(self.query.expectedResults)
             if recall >= recall_level:
                 break
-            if result in self.query.expectedReults.keys:
+            if result in self.query.expectedResults.keys:
                 valid_results += 1
 
         precision = valid_results / (len(self.results) * recall_level)
@@ -156,7 +156,7 @@ class BenchmarkResult:
             raise ValueError("r must be smaller than the number of results")
         valid_results = 0
         for result in self.results[:r]:
-            if result in self.query.expectedReults.keys:
+            if result in self.query.expectedResults.keys:
                 valid_results += 1
         return valid_results / r
 
