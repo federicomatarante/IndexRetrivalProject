@@ -108,17 +108,14 @@ while True:
                 and_type = 1
 
         results = searcher.retrieve(query=query, sentiment=switcher(sentiment))
-        print(sentiment)
         if sentiment == "very positive" or sentiment == "positive" or sentiment == "all" or sentiment=="neuter":
             results.sort(key= lambda x : x.sentiment,reverse=True)
         else:
-            print("sono nell'esle")
             results.sort(key = lambda x : x.sentiment)
         i = 1
         for i in range(0, 30):
             if i < len(results):
                 aggiorna_campo(i, results[i])
-                print(results[i])
             else:
                 hideField(i)
             window.refresh()  # refresh required here
