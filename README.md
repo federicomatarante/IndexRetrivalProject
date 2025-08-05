@@ -14,7 +14,7 @@ Tra le varie funzioni, l'app permette di:
 </div>
 - Avere la possibilità di filtrare i risultati per sentimento della recensione ( calcolato automaticamente tramite un modello di AI ).
 <div align="center">
-  <img src="resources/filter_serach.png" width="400"/>
+  <img src="resources/filter_search.png" width="400"/>
 </div>
 
 Per maggiori informazioni leggere la presentazione nella repository.
@@ -40,7 +40,7 @@ Among its main features, the app allows users to:
 </div>
 - Filter search results by the sentiment of the review (automatically calculated using an AI model).
 <div align="center">
-  <img src="resources/filter_serach.png" width="400"/>
+  <img src="resources/filter_search.png" width="400"/>
 </div>
 
 For more details, see the presentation available in the repository.
